@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRAINSTORM — Howard Hertzog WWII Ship Photography Website — 29 July 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Playfair+Display:ital,wght@0,700;1,400&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
+<style>
+
+/* ── RESET ── */
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* ── TOKENS ── */
+:root {
+  --bg:        #0c0c08;
+  --bg2:       #101008;
+  --olive:     #4a5d1f;
+  --olive-lt:  #6b7c35;
+  --khaki:     #857055;
+  --steel:     #5a6e7f;
+  --steel-lt:  #7a9aac;
+  --rust:      #7a3020;
+  --gold:      #c8a044;
+  --gold-dk:   #a07830;
+  --paper:     #d8cba8;
+  --paper-dk:  #b8a87a;
+  --ink:       #1c1408;
+  --ink-lt:    #3a2e1a;
+  --cream:     #e2d8be;
+  --red-dk:    #8c1818;
+  --green-dk:  #0f1c0a;
+}
+
+/* ── BASE ── */
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: 'Special Elite', serif;
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ── LAYOUT ── */
+.container { max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
+section    { padding: 5rem 0; position: relative; }
+
+/* ── SHARED TYPE ── */
+.sec-eyebrow {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-size: .65rem;
+  letter-spacing: .55em;
+  text-transform: uppercase;
+  margin-bottom: .6rem;
+  opacity: .65;
+}
+.sec-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: .5rem;
+}
+.sec-desc {
+  font-size: .9rem;
+  max-width: 600px;
+  opacity: .6;
+  margin-bottom: 3rem;
+  font-style: italic;
+  line-height: 1.7;
+}
+
+/* ── DIVIDERS ── */
+.hr-rule {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--khaki) 35%, var(--khaki) 65%, transparent 100%);
+  opacity: .22;
+}
+
+/* ═══════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════ */
+header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 2rem 9rem;
+  background:
+    radial-gradient(ellipse 75% 55% at 50% 38%, #1a2010 0%, #080c06 55%, var(--bg) 100%);
+  border-bottom: 1px solid #2a2a18;
+  position: relative;
+  overflow: hidden;
+}
+
+/* scanlines */
+header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px, transparent 3px,
+    rgba(0,0,0,.14) 3px, rgba(0,0,0,.14) 4px
+  );
+  pointer-events: none;
+}
+
+/* bottom fade into body */
+header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 160px;
+  background: linear-gradient(transparent, var(--bg));
+  pointer-events: none;
+}
+
+.hdr-ship {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  max-width: 92vw;
+  opacity: .07;
+  pointer-events: none;
+  filter: blur(.5px);
+}
+
+.hdr-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hdr-stamp {
+  display: inline-block;
+  border: 2px solid var(--red-dk);
+  color: var(--red-dk);
+  font-family: 'Oswald', sans-serif;
+  font-size: .68rem;
+  letter-spacing: .5em;
+  padding: .25rem 1.2rem;
+  margin-bottom: 2.5rem;
+  transform: rotate(-.7deg);
+  opacity: .8;
+}
+
+.hdr-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-size: .68rem;
+  letter-spacing: .5em;
+  text-transform: uppercase;
+  color: var(--khaki);
+  margin-bottom: .7rem;
+  opacity: .7;
+}
+
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 7.5vw, 5.8rem);
+  font-weight: 700;
+  color: var(--cream);
+  line-height: 1.07;
+  margin-bottom: 1.8rem;
+  text-shadow: 0 2px 28px rgba(0,0,0,.85), 0 0 80px rgba(120,140,70,.13);
+}
+header h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.hdr-sub {
+  max-width: 560px;
+  font-size: 1rem;
+  color: var(--paper-dk);
+  line-height: 1.7;
+  opacity: .78;
+  margin-bottom: 3rem;
+}
+
+.hdr-meta {
+  display: flex;
+  gap: 2.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3.5rem;
+}
+.hdr-meta-label {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-size: .58rem;
+  letter-spacing: .38em;
+  color: var(--khaki);
+  text-transform: uppercase;
+  margin-bottom: .25rem;
+  opacity: .6;
+}
+.hdr-meta-val {
+  font-size: .95rem;
+  color: var(--cream);
+}
+
+.hdr-nav {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.hdr-nav a {
+  display: inline-block;
+  background: rgba(74,93,31,.4);
+  border: 1px solid rgba(107,124,53,.5);
+  color: var(--cream);
+  font-family: 'Oswald', sans-serif;
+  font-size: .62rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  padding: .38rem .95rem;
+  text-decoration: none;
+  transition: background .2s, color .2s;
+}
+.hdr-nav a:hover {
+  background: var(--olive-lt);
+  color: var(--bg);
+}
+
+/* ═══════════════════════════════════════
+   SECTION 1 — HOW MIGHT WE
+   ═══════════════════════════════════════ */
+#hmw {
+  background: linear-gradient(180deg, var(--bg) 0%, #111808 50%, var(--bg) 100%);
+}
+#hmw .sec-eyebrow { color: var(--gold); }
+#hmw .sec-title   { color: var(--cream); }
+
+.hmw-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(295px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 3rem;
+}
+
+.hmw-card {
+  background: var(--paper);
+  color: var(--ink);
+  padding: 1.45rem 1.45rem 1.3rem;
+  position: relative;
+  border-left: 5px solid var(--olive);
+  box-shadow: 2px 5px 18px rgba(0,0,0,.6), inset 0 0 60px rgba(0,0,0,.04);
+}
+.hmw-card::before {
+  content: 'H.M.W.';
+  position: absolute;
+  top: -1px; right: 1.1rem;
+  background: var(--olive);
+  color: var(--cream);
+  font-family: 'Oswald', sans-serif;
+  font-size: .57rem;
+  letter-spacing: .22em;
+  padding: .15rem .55rem;
+}
+.hmw-card-n {
+  font-family: 'Oswald', sans-serif;
+  font-size: .6rem;
+  letter-spacing: .22em;
+  color: var(--khaki);
+  margin-bottom: .45rem;
+}
+.hmw-card-text {
+  font-size: .92rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.hmw-target {
+  background: #eee3c8;
+  border: 2px solid var(--rust);
+  padding: 2rem 2.2rem;
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,.5);
+}
+.hmw-target::before {
+  content: '★  SELECTED ATTACK TARGET  ★';
+  position: absolute;
+  top: -.9rem; left: 50%;
+  transform: translateX(-50%);
+  background: var(--rust);
+  color: #f0e0d0;
+  font-family: 'Oswald', sans-serif;
+  font-size: .58rem;
+  letter-spacing: .38em;
+  padding: .22rem 1.2rem;
+  white-space: nowrap;
+}
+.hmw-target-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════
+   SECTION 2 — REVERSE BRAINSTORMING
+   ═══════════════════════════════════════ */
+#reverse {
+  background: linear-gradient(180deg, var(--bg) 0%, #170a08 50%, var(--bg) 100%);
+}
+#reverse .sec-eyebrow { color: #b07060; }
+#reverse .sec-title   { color: var(--cream); }
+
+.rev-wrap { overflow-x: auto; }
+
+.rev-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .88rem;
+}
+.rev-table thead th {
+  font-family: 'Oswald', sans-serif;
+  font-size: .63rem;
+  letter-spacing: .38em;
+  text-transform: uppercase;
+  padding: .85rem 1.3rem;
+  text-align: left;
+}
+.rev-table thead th.col-bad  {
+  color: #c07060;
+  border-bottom: 2px solid var(--rust);
+  background: #160807;
+  width: 46%;
+}
+.rev-table thead th.col-arr  {
+  color: var(--khaki);
+  background: #100c08;
+  width: 6%;
+  text-align: center;
+}
+.rev-table thead th.col-good {
+  color: #90b870;
+  border-bottom: 2px solid var(--olive-lt);
+  background: #0b1007;
+}
+.rev-table tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  transition: background .15s;
+}
+.rev-table tbody tr:hover { background: rgba(255,255,255,.025); }
+.rev-table td {
+  padding: .9rem 1.3rem;
+  vertical-align: top;
+  line-height: 1.55;
+}
+.rev-table td.col-bad  {
+  color: #c28070;
+  border-left: 3px solid rgba(122,48,32,.45);
+}
+.rev-table td.col-arr  {
+  text-align: center;
+  color: var(--khaki);
+  opacity: .45;
+  font-size: 1.15rem;
+  border-left: none;
+}
+.rev-table td.col-good {
+  color: #9abf78;
+  border-left: 3px solid rgba(74,93,31,.45);
+}
+
+/* ═══════════════════════════════════════
+   SECTION 3 — STARBURSTING
+   ═══════════════════════════════════════ */
+#starburst {
+  background: linear-gradient(180deg, var(--bg) 0%, #080f1a 50%, var(--bg) 100%);
+}
+#starburst .sec-eyebrow { color: var(--steel-lt); }
+#starburst .sec-title   { color: var(--cream); }
+
+.sb-star-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.sb-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem;
+}
+@media (min-width: 700px) {
+  .sb-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.sb-card {
+  background: rgba(90,110,127,.08);
+  border: 1px solid rgba(90,110,127,.22);
+  padding: 1.5rem;
+}
+.sb-card-hdr {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  margin-bottom: 1rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid rgba(90,110,127,.18);
+}
+.sb-letter {
+  width: 38px; height: 38px;
+  background: var(--steel);
+  color: var(--bg);
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.sb-prompt {
+  font-family: 'Special Elite', serif;
+  font-size: .82rem;
+  color: var(--steel-lt);
+  font-style: italic;
+  line-height: 1.4;
+}
+.sb-items { list-style: none; }
+.sb-items li {
+  font-size: .85rem;
+  padding: .35rem 0;
+  color: #8aacbf;
+  border-bottom: 1px solid rgba(90,110,127,.1);
+  line-height: 1.5;
+}
+.sb-items li:last-child { border-bottom: none; }
+.sb-items li::before { content: '— '; color: var(--steel); opacity: .5; }
+
+/* ═══════════════════════════════════════
+   SECTION 4 — UTOPIA vs DYSTOPIA
+   ═══════════════════════════════════════ */
+#ud { background: var(--bg); }
+#ud .sec-eyebrow { color: #88a868; }
+#ud .sec-title   { color: var(--cream); }
+
+.ud-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  border: 1px solid rgba(255,255,255,.06);
+}
+@media (max-width: 680px) {
+  .ud-wrap { grid-template-columns: 1fr; }
+}
+
+.ud-col { padding: 2.5rem 2rem; }
+.ud-col--u {
+  background: linear-gradient(160deg, #0e1a0e 0%, #091208 100%);
+  border-right: 1px solid rgba(255,255,255,.05);
+}
+.ud-col--d {
+  background: linear-gradient(160deg, #1a0c0c 0%, #120707 100%);
+}
+
+.ud-col-hdr {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.ud-icon { font-size: 1.5rem; line-height: 1; }
+.ud-col-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: .82rem;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+}
+.ud-col--u .ud-col-title { color: #80b060; }
+.ud-col--d .ud-col-title { color: #c07070; }
+
+.ud-items { list-style: none; }
+.ud-items li {
+  padding: .6rem 0;
+  font-size: .88rem;
+  line-height: 1.55;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.ud-col--u .ud-items li { color: #9acf7a; }
+.ud-col--d .ud-items li { color: #c49090; }
+.ud-col--u .ud-items li::before { content: '✦ '; color: #609840; opacity: .7; }
+.ud-col--d .ud-items li::before { content: '✖ '; color: #904040; opacity: .7; }
+
+/* ═══════════════════════════════════════
+   SECTION 5 — MOSCOW CONVERGENCE
+   ═══════════════════════════════════════ */
+#moscow {
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, #101308 0%, var(--bg) 60%);
+  padding: 5rem 0 7rem;
+}
+#moscow .sec-eyebrow { color: var(--gold); }
+#moscow .sec-title   { color: var(--cream); }
+
+.moscow-doc {
+  background: var(--paper);
+  color: var(--ink);
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 3.5rem;
+  position: relative;
+  box-shadow:
+    0 0 0 10px rgba(0,0,0,.32),
+    0 22px 72px rgba(0,0,0,.8);
+  font-family: 'Special Elite', serif;
+}
+/* lined-paper rule overlay */
+.moscow-doc::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px, transparent 27px,
+    rgba(0,0,0,.058) 27px, rgba(0,0,0,.058) 28px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+/* corner dog-ear */
+.moscow-doc::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 0 46px 46px 0;
+  border-color: transparent var(--paper-dk) transparent transparent;
+  z-index: 2;
+}
+.moscow-doc > * { position: relative; z-index: 1; }
+
+.doc-header {
+  text-align: center;
+  padding-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 3px double var(--ink);
+}
+.doc-class-stamp {
+  display: inline-block;
+  border: 3px solid var(--red-dk);
+  color: var(--red-dk);
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: .55em;
+  padding: .3rem 1.7rem;
+  transform: rotate(-1.2deg);
+  margin-bottom: 1.8rem;
+}
+.doc-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: .4rem;
+}
+.doc-sub {
+  font-size: .8rem;
+  color: var(--ink-lt);
+  letter-spacing: .06em;
+  margin-bottom: .6rem;
+}
+.doc-fields {
+  display: flex;
+  gap: 2.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: .75rem;
+  color: var(--ink-lt);
+  letter-spacing: .04em;
+  opacity: .75;
+  margin-top: .5rem;
+}
+
+.moscow-tier { margin-bottom: 2.3rem; }
+.tier-hdr {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  margin-bottom: .9rem;
+}
+.tier-badge {
+  font-family: 'Oswald', sans-serif;
+  font-size: .7rem;
+  letter-spacing: .3em;
+  padding: .28rem .9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.tier-badge--must   { background: #1c1408; color: #d4c0a0; }
+.tier-badge--should { background: #3a2e1a; color: #c0a878; }
+.tier-badge--could  { background: var(--khaki); color: var(--ink); }
+.tier-badge--wont   { background: var(--paper-dk); color: var(--ink-lt); opacity: .65; }
+
+.tier-desc {
+  font-family: 'Special Elite', serif;
+  font-size: .78rem;
+  color: var(--ink-lt);
+  font-style: italic;
+  opacity: .7;
+}
+.tier-items {
+  list-style: none;
+  padding-left: 1.4rem;
+  border-left: 2px solid var(--paper-dk);
+}
+.tier-items li {
+  padding: .45rem 0;
+  font-size: .875rem;
+  color: var(--ink);
+  border-bottom: 1px dotted rgba(0,0,0,.09);
+  line-height: 1.52;
+}
+.tier-items li:last-child { border-bottom: none; }
+
+.doc-sig {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 3px double var(--ink);
+  text-align: center;
+  font-size: .72rem;
+  color: var(--ink-lt);
+  letter-spacing: .07em;
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════
+   SECTION 6 — BREAKTHROUGH INSIGHT
+   ═══════════════════════════════════════ */
+#breakthrough {
+  background: #040402;
+  padding: 7rem 0 8rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+#breakthrough::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 720px; height: 720px;
+  background: radial-gradient(circle, rgba(200,160,68,.07) 0%, transparent 66%);
+  pointer-events: none;
+}
+.bt-eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-size: .65rem;
+  letter-spacing: .62em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2rem;
+  opacity: .72;
+  position: relative;
+}
+.bt-rule {
+  width: 80px; height: 2px;
+  background: var(--gold);
+  margin: 0 auto 3.2rem;
+  opacity: .32;
+}
+.bt-quote {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1.25rem, 3vw, 2.05rem);
+  color: var(--gold);
+  max-width: 780px;
+  margin: 0 auto 3.5rem;
+  line-height: 1.56;
+  position: relative;
+}
+.bt-quote em {
+  font-style: normal;
+  border-bottom: 1px solid rgba(200,160,68,.42);
+}
+
+.bt-formula {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: .85rem;
+  flex-wrap: wrap;
+  position: relative;
+}
+.bt-term {
+  background: rgba(200,160,68,.09);
+  border: 1px solid rgba(200,160,68,.28);
+  color: var(--gold);
+  font-family: 'Oswald', sans-serif;
+  font-size: .78rem;
+  letter-spacing: .12em;
+  padding: .7rem 1.15rem;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.35;
+}
+.bt-term small {
+  display: block;
+  font-size: .65em;
+  opacity: .55;
+  letter-spacing: .08em;
+  margin-top: .25rem;
+}
+.bt-op {
+  color: var(--gold);
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  opacity: .38;
+  display: flex;
+  align-items: center;
+}
+.bt-result {
+  background: var(--gold);
+  color: var(--bg);
+  font-family: 'Oswald', sans-serif;
+  font-size: .78rem;
+  letter-spacing: .14em;
+  padding: .7rem 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.35;
+}
+.bt-result small {
+  display: block;
+  font-size: .7em;
+  opacity: .65;
+  margin-top: .25rem;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════ */
+footer {
+  background: #020201;
+  border-top: 1px solid rgba(133,112,85,.14);
+  padding: 2rem;
+  text-align: center;
+}
+.foot-text {
+  font-family: 'Oswald', sans-serif;
+  font-size: .58rem;
+  letter-spacing: .35em;
+  color: var(--khaki);
+  text-transform: uppercase;
+  opacity: .42;
+  line-height: 1.9;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media (max-width: 680px) {
+  .hmw-grid  { grid-template-columns: 1fr; }
+  .rev-table { font-size: .8rem; }
+  .rev-table td { padding: .7rem .9rem; }
+  .moscow-doc { padding: 2.2rem 1.5rem; }
+  .hdr-meta { gap: 2rem; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════ -->
+<header id="top">
+
+  <!-- Ship silhouette — destroyer / fleet escort, 1944 -->
+  <svg class="hdr-ship" viewBox="0 0 800 175" xmlns="http://www.w3.org/2000/svg"
+       aria-hidden="true" fill="#8a9870">
+    <!-- hull form -->
+    <path d="M68,148 L118,116 L694,116 L745,148 Q400,164 68,148Z"/>
+    <!-- main deck strip -->
+    <rect x="145" y="103" width="462" height="13" rx="1"/>
+    <!-- aft superstructure block -->
+    <rect x="540" y="80" width="105" height="23" rx="1"/>
+    <!-- forward main superstructure -->
+    <rect x="288" y="65" width="145" height="38" rx="1"/>
+    <!-- bridge house -->
+    <rect x="316" y="42" width="90" height="24" rx="1"/>
+    <!-- compass bridge -->
+    <rect x="330" y="28" width="62" height="15" rx="1"/>
+    <!-- fore mast vertical -->
+    <rect x="358" y="4" width="4" height="27"/>
+    <!-- yard arm -->
+    <rect x="338" y="14" width="44" height="3" rx="1"/>
+    <!-- aft mast -->
+    <rect x="558" y="52" width="3" height="32"/>
+    <!-- funnel 1 (main) -->
+    <rect x="405" y="52" width="26" height="51" rx="2"/>
+    <!-- funnel 2 (secondary) -->
+    <rect x="443" y="58" width="21" height="45" rx="2"/>
+    <!-- forward gun turret -->
+    <rect x="183" y="98" width="55" height="7" rx="1"/>
+    <!-- aft gun turret -->
+    <rect x="558" y="98" width="52" height="7" rx="1"/>
+    <!-- liferaft silhouettes -->
+    <rect x="240" y="110" width="12" height="5" rx="1" opacity=".6"/>
+    <rect x="510" y="110" width="12" height="5" rx="1" opacity=".6"/>
+    <!-- bow wave -->
+    <path d="M68,148 Q42,141 14,157 Q40,150 68,148Z" opacity=".35"/>
+    <!-- stern wake -->
+    <path d="M745,148 Q768,143 790,154 Q768,148 745,148Z" opacity=".35"/>
+    <!-- waterline ripple -->
+    <path d="M100,162 Q200,158 400,160 Q600,158 700,162" stroke="#8a9870"
+          stroke-width="1.5" fill="none" opacity=".18"/>
+  </svg>
+
+  <div class="hdr-inner">
+    <div class="hdr-stamp">WORKING DOCUMENT — SESSION RECORD</div>
+    <div class="hdr-eyebrow">Brainstorm · 29 July 2026 · San Francisco</div>
+
+    <h1>Through the <em>Lens</em><br>of Howard Hertzog</h1>
+
+    <p class="hdr-sub">
+      A design brainstorm for a static website presenting twenty-one wartime
+      ship photographs taken from the San Francisco Bay, c.&thinsp;1944–1946,
+      by Howard Hertzog.
+    </p>
+
+    <div class="hdr-meta">
+      <div>
+        <span class="hdr-meta-label">Subject</span>
+        <span class="hdr-meta-val">WWII Ship Photography</span>
+      </div>
+      <div>
+        <span class="hdr-meta-label">Photographer</span>
+        <span class="hdr-meta-val">Howard Hertzog</span>
+      </div>
+      <div>
+        <span class="hdr-meta-label">Location</span>
+        <span class="hdr-meta-val">San Francisco Bay</span>
+      </div>
+      <div>
+        <span class="hdr-meta-label">Era</span>
+        <span class="hdr-meta-val">c.&thinsp;1944–1946</span>
+      </div>
+      <div>
+        <span class="hdr-meta-label">Fleet Size</span>
+        <span class="hdr-meta-val">21 Ships</span>
+      </div>
+      <div>
+        <span class="hdr-meta-label">Techniques Run</span>
+        <span class="hdr-meta-val">4 Methods · 45+ Ideas</span>
+      </div>
+    </div>
+
+    <nav class="hdr-nav" aria-label="Jump to section">
+      <a href="#hmw">How Might We</a>
+      <a href="#reverse">Reverse Brainstorming</a>
+      <a href="#starburst">Starbursting</a>
+      <a href="#ud">Utopia vs Dystopia</a>
+      <a href="#moscow">MoSCoW Convergence</a>
+      <a href="#breakthrough">Breakthrough Insight</a>
+    </nav>
+  </div>
+
+</header>
+
+<div class="hr-rule"></div>
+
+<!-- ═══════════════════════════════════════════
+     TECHNIQUE 01 — HOW MIGHT WE
+     ═══════════════════════════════════════════ -->
+<section id="hmw">
+  <div class="container">
+
+    <span class="sec-eyebrow">Technique 01 — How Might We</span>
+    <h2 class="sec-title">Reframing the Challenge</h2>
+    <p class="sec-desc">
+      Opening the design space by recasting every obstacle as an optimistic, actionable question.
+      Attack target selected: <em>"make each ship feel like it has a story worth staying for."</em>
+    </p>
+
+    <div class="hmw-grid">
+
+      <div class="hmw-card">
+        <div class="hmw-card-n">IDEA 01 — SOURCE: MEMLOG</div>
+        <p class="hmw-card-text">make each ship feel like it has a story worth staying for, not just a caption to skim</p>
+      </div>
+
+      <div class="hmw-card">
+        <div class="hmw-card-n">IDEA 02 — SOURCE: MEMLOG</div>
+        <p class="hmw-card-text">let these photographs speak as primary documents and artifacts of a specific moment and a specific person — not generic stock imagery</p>
+      </div>
+
+      <div class="hmw-card">
+        <div class="hmw-card-n">IDEA 03 — SOURCE: MEMLOG</div>
+        <p class="hmw-card-text">design so that adding Uncle Howard's story page feels like it was always supposed to be there — not a later addition</p>
+      </div>
+
+      <div class="hmw-card">
+        <div class="hmw-card-n">IDEA 04</div>
+        <p class="hmw-card-text">use a dossier card to make hull class, commission date, and fate instantly graspable in five seconds flat</p>
+      </div>
+
+      <div class="hmw-card">
+        <div class="hmw-card-n">IDEA 05</div>
+        <p class="hmw-card-text">frame every ship page with "where was it going?" — a question that gives each photograph direction, weight, and destination</p>
+      </div>
+
+      <div class="hmw-card">
+        <div class="hmw-card-n">IDEA 06</div>
+        <p class="hmw-card-text">credit Howard on every single page so his witness is permanent and always discoverable — not buried in an about page</p>
+      </div>
+
+      <div class="hmw-card">
+        <div class="hmw-card-n">IDEA 07</div>
+        <p class="hmw-card-text">use the ship's eventual fate as the emotional punctuation at the foot of every page — the final sentence that lands</p>
+      </div>
+
+      <div class="hmw-card">
+        <div class="hmw-card-n">IDEA 08</div>
+        <p class="hmw-card-text">source every history paragraph honestly — showing readers what is documented record and what is family memory or inference</p>
+      </div>
+
+      <div class="hmw-card">
+        <div class="hmw-card-n">IDEA 09</div>
+        <p class="hmw-card-text">design the homepage as a fleet album, not a bullet list — twenty-one photographs that invite exploration</p>
+      </div>
+
+      <div class="hmw-card">
+        <div class="hmw-card-n">IDEA 10</div>
+        <p class="hmw-card-text">use period-appropriate typography and palette — olive drab, khaki, steel — to transport a visitor to 1944 the moment the page loads</p>
+      </div>
+
+      <div class="hmw-card">
+        <div class="hmw-card-n">IDEA 11</div>
+        <p class="hmw-card-text">build navigation that lets visitors discover the fleet organically — prev/next per ship, back-to-fleet always within reach</p>
+      </div>
+
+      <div class="hmw-card">
+        <div class="hmw-card-n">IDEA 12</div>
+        <p class="hmw-card-text">scaffold all twenty-one ship pages from day one with coming-soon placeholders — the fleet always feels complete, never under construction</p>
+      </div>
+
+    </div><!-- /hmw-grid -->
+
+    <div class="hmw-target" role="note" aria-label="Selected attack target">
+      <p class="hmw-target-text">
+        "How might we make each ship feel like it has a story worth staying for,
+        not just a caption to skim?"
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<div class="hr-rule"></div>
+
+<!-- ═══════════════════════════════════════════
+     TECHNIQUE 02 — REVERSE BRAINSTORMING
+     ═══════════════════════════════════════════ -->
+<section id="reverse">
+  <div class="container">
+
+    <span class="sec-eyebrow">Technique 02 — Reverse Brainstorming</span>
+    <h2 class="sec-title">Threat Analysis &amp; Counter-Measures</h2>
+    <p class="sec-desc">
+      How do you deliberately destroy this site? List every sabotage vector —
+      then invert each one into a concrete design requirement.
+    </p>
+
+    <div class="rev-wrap">
+      <table class="rev-table" role="table">
+        <thead>
+          <tr>
+            <th class="col-bad">SABOTAGE VECTOR — how to destroy this site</th>
+            <th class="col-arr">→</th>
+            <th class="col-good">COUNTER-MEASURE — the requirement it reveals</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-bad">Make the photographer completely invisible. Never mention Howard's name — not once, anywhere.</td>
+            <td class="col-arr">→</td>
+            <td class="col-good">Credit Howard on every page — in the caption, the header, the footer. His name is structural, not decorative.</td>
+          </tr>
+          <tr>
+            <td class="col-bad">Apply a sterile modern UI: pure white, neutral sans-serif, flat design. Make it feel like a SaaS dashboard from 2024.</td>
+            <td class="col-arr">→</td>
+            <td class="col-good">Commit fully to the period palette — olive drab, khaki, steel grey. Slab serif type that evokes 1944, not the current decade.</td>
+          </tr>
+          <tr>
+            <td class="col-bad">Give every ship the same generic one-liner: "Naval vessel photographed in the Pacific, circa WWII." Interchangeable. Forgettable.</td>
+            <td class="col-arr">→</td>
+            <td class="col-good">Unique dossier card per ship: hull class, commission date, fate line. No two pages may feel identical.</td>
+          </tr>
+          <tr>
+            <td class="col-bad">Leave navigation dead-ends everywhere. Ships without content yet become 404 errors or completely blank pages.</td>
+            <td class="col-arr">→</td>
+            <td class="col-good">Coming-soon placeholders on every ship slot from day one. The fleet index is always complete; only the content fills in over time.</td>
+          </tr>
+          <tr>
+            <td class="col-bad">Serve original uncompressed full-resolution scans with no optimization. Let the page take 40 seconds to load on a phone.</td>
+            <td class="col-arr">→</td>
+            <td class="col-good">Optimized static site: compressed images, no server-side processing, fast load on every device. A static file wins here on all counts.</td>
+          </tr>
+          <tr>
+            <td class="col-bad">Design exclusively for 1440px desktop. Actively ignore every phone, tablet, and anything smaller than a monitor.</td>
+            <td class="col-arr">→</td>
+            <td class="col-good">Mobile-first responsive layout. The full-width hero photograph must dominate on every screen — phone through desktop.</td>
+          </tr>
+          <tr>
+            <td class="col-bad">Never tell anyone when or where the photographs were taken. No date, no location, no era — strip all temporal context.</td>
+            <td class="col-arr">→</td>
+            <td class="col-good">Establish Howard + San Francisco Bay + era c.1944–1946 in the opening paragraph of the homepage. State it on every ship page footer.</td>
+          </tr>
+          <tr>
+            <td class="col-bad">Scatter ships in random order with no index. Give visitors no map of the fleet and no way to know where they are.</td>
+            <td class="col-arr">→</td>
+            <td class="col-good">Persistent fleet index in nav — one click from anywhere. Consistent, logical ordering across all twenty-one ships.</td>
+          </tr>
+          <tr>
+            <td class="col-bad">Present all history as certain undisputed fact with zero sourcing. Blend verified record with speculation freely.</td>
+            <td class="col-arr">→</td>
+            <td class="col-good">Sourced history summaries with an explicit caveat distinguishing documented record from family memory or inference.</td>
+          </tr>
+          <tr>
+            <td class="col-bad">Omit an "About Howard" page entirely. Let him be a footnote in a single caption, then nothing.</td>
+            <td class="col-arr">→</td>
+            <td class="col-good">About Howard nav slot present from launch — even if the page is coming-soon. His story must always be findable.</td>
+          </tr>
+          <tr>
+            <td class="col-bad">Design a completely unique bespoke layout for each of the twenty-one ships. No template, no consistency. Total visual chaos.</td>
+            <td class="col-arr">→</td>
+            <td class="col-good">One consistent template applied identically to all twenty-one ships. The consistency signals a unified archive, not a scattered blog.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<div class="hr-rule"></div>
+
+<!-- ═══════════════════════════════════════════
+     TECHNIQUE 03 — STARBURSTING
+     ═══════════════════════════════════════════ -->
+<section id="starburst">
+  <div class="container">
+
+    <span class="sec-eyebrow">Technique 03 — Starbursting</span>
+    <h2 class="sec-title">The Six Interrogations</h2>
+    <p class="sec-desc">
+      Rotating systematically through Who, What, Where, When, Why, and How —
+      each axis forced the design space open from a different angle.
+    </p>
+
+    <!-- Starburst SVG diagram -->
+    <div class="sb-star-wrap" aria-hidden="true">
+      <svg viewBox="0 0 440 440" width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="cg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#5a6e7f" stop-opacity=".3"/>
+            <stop offset="100%" stop-color="#5a6e7f" stop-opacity=".03"/>
+          </radialGradient>
+        </defs>
+        <!-- outer dashed circle -->
+        <circle cx="220" cy="220" r="198" fill="none" stroke="#5a6e7f"
+                stroke-width=".6" stroke-dasharray="5 7" opacity=".22"/>
+        <!-- mid circle -->
+        <circle cx="220" cy="220" r="130" fill="none" stroke="#5a6e7f"
+                stroke-width=".4" stroke-dasharray="3 9" opacity=".14"/>
+        <!-- six rays (hexagonal) -->
+        <line x1="220" y1="220" x2="220" y2="24"  stroke="#5a6e7f" stroke-width="1" opacity=".3"/>
+        <line x1="220" y1="220" x2="390" y2="122" stroke="#5a6e7f" stroke-width="1" opacity=".3"/>
+        <line x1="220" y1="220" x2="390" y2="318" stroke="#5a6e7f" stroke-width="1" opacity=".3"/>
+        <line x1="220" y1="220" x2="220" y2="416" stroke="#5a6e7f" stroke-width="1" opacity=".3"/>
+        <line x1="220" y1="220" x2="50"  y2="318" stroke="#5a6e7f" stroke-width="1" opacity=".3"/>
+        <line x1="220" y1="220" x2="50"  y2="122" stroke="#5a6e7f" stroke-width="1" opacity=".3"/>
+        <!-- center -->
+        <circle cx="220" cy="220" r="52" fill="url(#cg)"/>
+        <circle cx="220" cy="220" r="52" fill="none" stroke="#5a6e7f" stroke-width="1.5" opacity=".45"/>
+        <text x="220" y="215" text-anchor="middle" font-family="Oswald,sans-serif"
+              font-size="10" fill="#7a9aac" letter-spacing="2" opacity=".8">ATTACK</text>
+        <text x="220" y="230" text-anchor="middle" font-family="Oswald,sans-serif"
+              font-size="10" fill="#7a9aac" letter-spacing="2" opacity=".8">TARGET</text>
+        <!-- node dots -->
+        <circle cx="220" cy="24"  r="5" fill="#5a6e7f" opacity=".55"/>
+        <circle cx="390" cy="122" r="5" fill="#5a6e7f" opacity=".55"/>
+        <circle cx="390" cy="318" r="5" fill="#5a6e7f" opacity=".55"/>
+        <circle cx="220" cy="416" r="5" fill="#5a6e7f" opacity=".55"/>
+        <circle cx="50"  cy="318" r="5" fill="#5a6e7f" opacity=".55"/>
+        <circle cx="50"  cy="122" r="5" fill="#5a6e7f" opacity=".55"/>
+        <!-- axis labels -->
+        <text x="220" y="14"  text-anchor="middle" font-family="Oswald,sans-serif"
+              font-size="13" fill="#7a9aac" font-weight="600" opacity=".78">WHO</text>
+        <text x="406" y="125" text-anchor="start"  font-family="Oswald,sans-serif"
+              font-size="13" fill="#7a9aac" font-weight="600" opacity=".78">WHAT</text>
+        <text x="406" y="323" text-anchor="start"  font-family="Oswald,sans-serif"
+              font-size="13" fill="#7a9aac" font-weight="600" opacity=".78">WHERE</text>
+        <text x="220" y="435" text-anchor="middle" font-family="Oswald,sans-serif"
+              font-size="13" fill="#7a9aac" font-weight="600" opacity=".78">WHEN</text>
+        <text x="34"  y="323" text-anchor="end"    font-family="Oswald,sans-serif"
+              font-size="13" fill="#7a9aac" font-weight="600" opacity=".78">WHY</text>
+        <text x="34"  y="125" text-anchor="end"    font-family="Oswald,sans-serif"
+              font-size="13" fill="#7a9aac" font-weight="600" opacity=".78">HOW</text>
+      </svg>
+    </div><!-- /sb-star-wrap -->
+
+    <div class="sb-grid">
+
+      <div class="sb-card">
+        <div class="sb-card-hdr">
+          <div class="sb-letter">W</div>
+          <span class="sb-prompt">WHO — who is involved in and around this site?</span>
+        </div>
+        <ul class="sb-items">
+          <li>Family members carrying Howard's memory and photographs forward</li>
+          <li>Maritime historians and dedicated WWII researchers</li>
+          <li>General public arriving via search or word of mouth</li>
+          <li>Howard himself — the witness whose viewpoint we are preserving</li>
+          <li>The sailors aboard each vessel captured in the frame</li>
+          <li>Future descendants who will need this context even more than we do</li>
+        </ul>
+      </div>
+
+      <div class="sb-card">
+        <div class="sb-card-hdr">
+          <div class="sb-letter">W</div>
+          <span class="sb-prompt">WHAT — what must every ship page contain?</span>
+        </div>
+        <ul class="sb-items">
+          <li>Full-width hero photograph — the primary artifact, dominant above the fold</li>
+          <li>Dossier card: hull class, commissioned date, fate</li>
+          <li>"Where was it going?" narrative framing that gives the photo direction</li>
+          <li>Howard attribution caption anchored to the photograph</li>
+          <li>Sourced history summary with honest caveat</li>
+          <li>Prev/next navigation and back-to-fleet link</li>
+        </ul>
+      </div>
+
+      <div class="sb-card">
+        <div class="sb-card-hdr">
+          <div class="sb-letter">W</div>
+          <span class="sb-prompt">WHERE — where does essential context live on the site?</span>
+        </div>
+        <ul class="sb-items">
+          <li>Homepage: Howard + Bay + era c.1944–1946 in the opening paragraph</li>
+          <li>Fleet index: persistent in nav, one click from anywhere</li>
+          <li>About Howard: own nav slot, always present and findable</li>
+          <li>Attribution caption: anchored directly to every photograph</li>
+          <li>Date range stated in the homepage subtitle and in ship page footers</li>
+        </ul>
+      </div>
+
+      <div class="sb-card">
+        <div class="sb-card-hdr">
+          <div class="sb-letter">W</div>
+          <span class="sb-prompt">WHEN — what temporal facts shape decisions?</span>
+        </div>
+        <ul class="sb-items">
+          <li>The photographs were made c.1944–1946, wartime Pacific Fleet in SF Bay</li>
+          <li>Coming-soon pages matter immediately at launch — before all 21 ships have full content</li>
+          <li>The site should read correctly in 10, 20, or 50 years — no dated tech dependencies</li>
+          <li>Sourcing notes must state the date of research, not just the source title</li>
+        </ul>
+      </div>
+
+      <div class="sb-card">
+        <div class="sb-card-hdr">
+          <div class="sb-letter">W</div>
+          <span class="sb-prompt">WHY — why do specific design choices matter?</span>
+        </div>
+        <ul class="sb-items">
+          <li>Attribution on every page transforms photos from generic to personal witness documents</li>
+          <li>Static site: reliability, speed, longevity — no backend to rot or be hacked</li>
+          <li>The fate line matters because ships were destroyed — the emotional weight must land</li>
+          <li>Consistent template signals a unified archive, not a scattered personal blog</li>
+          <li>Honest sourcing protects the archive's long-term credibility</li>
+        </ul>
+      </div>
+
+      <div class="sb-card">
+        <div class="sb-card-hdr">
+          <div class="sb-letter">H</div>
+          <span class="sb-prompt">HOW — how is the site structured and navigated?</span>
+        </div>
+        <ul class="sb-items">
+          <li>21 ships, each on its own dedicated page — one consistent template throughout</li>
+          <li>Prev/next on every ship page; back-to-fleet link always visible</li>
+          <li>Persistent fleet index in nav at all times</li>
+          <li>Mobile-first layout: hero photograph scales to fill any screen</li>
+          <li>Pure static HTML/CSS — no CMS, no database, no server-side code</li>
+          <li>All 21 placeholder pages live at launch, content fills in over time</li>
+        </ul>
+      </div>
+
+    </div><!-- /sb-grid -->
+
+  </div>
+</section>
+
+<div class="hr-rule"></div>
+
+<!-- ═══════════════════════════════════════════
+     TECHNIQUE 04 — UTOPIA vs DYSTOPIA
+     ═══════════════════════════════════════════ -->
+<section id="ud">
+  <div class="container">
+
+    <span class="sec-eyebrow">Technique 04 — Utopia vs Dystopia</span>
+    <h2 class="sec-title">The Two Futures</h2>
+    <p class="sec-desc">
+      Imagining the best and worst possible version of this site sharpened what truly matters —
+      and what must be prevented at all cost.
+    </p>
+
+    <div class="ud-wrap">
+
+      <div class="ud-col ud-col--u">
+        <div class="ud-col-hdr">
+          <span class="ud-icon">✦</span>
+          <span class="ud-col-title">Utopia — the site we are building toward</span>
+        </div>
+        <ul class="ud-items">
+          <li>Every ship has a complete dossier — class, commission date, fate — understood at a glance in seconds</li>
+          <li>Visitors feel they are opening Howard's personal photo album, not clicking through a website</li>
+          <li>The "where was it going?" framing turns each photograph from an image into a story with stakes</li>
+          <li>Howard is credited on every single page — his witness is permanent, recognized, findable</li>
+          <li>The fleet index gives the sense of the whole: twenty-one ships, one war, one man's camera</li>
+          <li>The design transports — dark, textured, period-appropriate — you feel 1944 the moment you arrive</li>
+          <li>Coming-soon slots mean the site feels complete even before all content is in place</li>
+          <li>Sourced history with honest caveats builds lasting trust — readers know exactly what is fact</li>
+        </ul>
+      </div>
+
+      <div class="ud-col ud-col--d">
+        <div class="ud-col-hdr">
+          <span class="ud-icon">✖</span>
+          <span class="ud-col-title">Dystopia — what we are designing against</span>
+        </div>
+        <ul class="ud-items">
+          <li>Photos exist without context — nameless ships, unknown fates, Howard forgotten entirely</li>
+          <li>A modern sterile design makes 1944 photographs feel like clip art or stock imagery</li>
+          <li>Dead links and empty pages mean visitors leave without seeing the full fleet</li>
+          <li>No mobile support makes the site invisible to the majority of visitors who arrive on phones</li>
+          <li>Inconsistent templates make each ship page feel like a different, disconnected site</li>
+          <li>Generic captions strip the personal witness: "naval vessel, circa WWII"</li>
+          <li>History presented without sources — readers cannot separate documented fact from speculation</li>
+          <li>No About Howard page — the photographer vanishes entirely from his own archive</li>
+        </ul>
+      </div>
+
+    </div><!-- /ud-wrap -->
+
+  </div>
+</section>
+
+<div class="hr-rule"></div>
+
+<!-- ═══════════════════════════════════════════
+     CONVERGENCE — MOSCOW PRIORITIZATION
+     ═══════════════════════════════════════════ -->
+<section id="moscow">
+  <div class="container">
+
+    <span class="sec-eyebrow">Convergence — Affinity Clustering → MoSCoW Prioritization</span>
+    <h2 class="sec-title">The Orders</h2>
+    <p class="sec-desc">
+      Forty-five ideas collapsed into six affinity clusters.
+      Each cluster assigned a priority tier. What follows is the mission brief.
+    </p>
+
+    <div class="moscow-doc" role="document" aria-label="MoSCoW Convergence document">
+
+      <div class="doc-header">
+        <div class="doc-class-stamp">CONFIDENTIAL</div>
+        <h3 class="doc-title">DESIGN REQUIREMENTS — FLASH PRIORITY</h3>
+        <p class="doc-sub">Howard Hertzog WWII Ship Photography Website · Static Site Architecture</p>
+        <div class="doc-fields">
+          <span>DATE: 29 JULY 2026</span>
+          <span>REF: BRAINSTORM-WW2-SHIPS-001</span>
+          <span>STATUS: FINAL — APPROVED FOR EXECUTION</span>
+        </div>
+      </div>
+
+      <!-- ── MUST ── -->
+      <div class="moscow-tier">
+        <div class="tier-hdr">
+          <span class="tier-badge tier-badge--must">MUST</span>
+          <span class="tier-desc">Non-negotiable. Ship without these and the site fails its mission.</span>
+        </div>
+        <ul class="tier-items">
+          <li>Full-width hero photograph on every ship page — the photo is the primary artifact, dominant above all else</li>
+          <li>Dossier card per ship: hull class, commission date, fate line — legible at a glance</li>
+          <li>"Where was it going?" framing as the narrative context anchoring every ship page</li>
+          <li>Howard Hertzog attribution caption attached to every photograph on every ship page</li>
+          <li>Sourced history summary with explicit caveat distinguishing documented record from inference</li>
+          <li>Period palette throughout: olive drab, khaki, steel grey — no bright modern colors, no flat UI whites</li>
+          <li>Slab serif or condensed grotesque typeface — period-appropriate, not a contemporary neutral sans</li>
+          <li>Texture and grain throughout the design — aged-document aesthetic, not clean flat UI</li>
+          <li>Dark, album-like homepage feel — this is a military archive, not a news site or gallery</li>
+          <li>Dedicated page per ship — twenty-one pages, one per vessel, no exceptions</li>
+          <li>Prev / Next and back-to-fleet navigation on every ship page</li>
+          <li>Persistent fleet index accessible from every page via the main nav</li>
+          <li>Coming-soon placeholder pages from day one — never broken links, never dead ends</li>
+          <li>Homepage first paragraph establishes: Howard + San Francisco Bay + era + date range c.1944–1946</li>
+          <li>Fleet overview section on the homepage showing all twenty-one ships</li>
+          <li>Howard Hertzog credited visibly on every page of the site</li>
+          <li>About Howard nav slot present from launch (may be coming-soon, must not be absent)</li>
+          <li>Static site — no CMS, no database, no server-side code, no login</li>
+          <li>Mobile-first responsive layout — full hero photo experience on every device</li>
+          <li>Fast page load — optimized images, minimal external dependencies</li>
+          <li>Consistent template applied identically across all twenty-one ship pages</li>
+        </ul>
+      </div>
+
+      <!-- ── SHOULD ── -->
+      <div class="moscow-tier">
+        <div class="tier-hdr">
+          <span class="tier-badge tier-badge--should">SHOULD</span>
+          <span class="tier-desc">High value — include if effort is reasonable; defer carefully with justification.</span>
+        </div>
+        <ul class="tier-items">
+          <li>Howard's personal biography on the About Howard page when content is ready to publish</li>
+          <li>"Ship class" reference note so general readers understand what kind of vessel they are looking at</li>
+          <li>External links to authoritative naval records where available (DANFS, NavSource, etc.)</li>
+          <li>Image caption noting vantage point or Bay location if it is known from family records</li>
+        </ul>
+      </div>
+
+      <!-- ── COULD ── -->
+      <div class="moscow-tier">
+        <div class="tier-hdr">
+          <span class="tier-badge tier-badge--could">COULD</span>
+          <span class="tier-desc">Nice-to-have enhancements — candidates for a future iteration.</span>
+        </div>
+        <ul class="tier-items">
+          <li>Interactive timeline ordering ships by the approximate date Howard photographed them</li>
+          <li>Sorting or filtering controls on the fleet index page (by class, by fate, by date)</li>
+          <li>Lightbox or photograph zoom for visitors who want to inspect detail</li>
+          <li>A dedicated dedication page for Howard and his service to the family archive</li>
+        </ul>
+      </div>
+
+      <!-- ── WON'T ── -->
+      <div class="moscow-tier">
+        <div class="tier-hdr">
+          <span class="tier-badge tier-badge--wont">WON'T — v1</span>
+          <span class="tier-desc">Explicitly out of scope for the first version. Do not build these.</span>
+        </div>
+        <ul class="tier-items">
+          <li>User accounts, login, or authentication of any kind</li>
+          <li>Comment section, guestbook, or any user-generated content feature</li>
+          <li>Database or CMS backend of any kind</li>
+          <li>Interactive map of San Francisco Bay showing photography locations</li>
+        </ul>
+      </div>
+
+      <div class="doc-sig">
+        ISSUED BY: BRAINSTORM RECORD &nbsp;·&nbsp; SESSION DATE: 29 JULY 2026<br>
+        METHOD: AFFINITY CLUSTERING → MOSCOW PRIORITIZATION &nbsp;·&nbsp; 6 CLUSTERS IDENTIFIED &nbsp;·&nbsp; 21 MUST-TIER REQUIREMENTS CONFIRMED
+      </div>
+
+    </div><!-- /moscow-doc -->
+
+  </div>
+</section>
+
+<div class="hr-rule"></div>
+
+<!-- ═══════════════════════════════════════════
+     BREAKTHROUGH INSIGHT
+     ═══════════════════════════════════════════ -->
+<section id="breakthrough">
+  <div class="container">
+
+    <div class="bt-eyebrow">★&nbsp;&nbsp;&nbsp;Key Synthesis Insight&nbsp;&nbsp;&nbsp;★</div>
+    <div class="bt-rule"></div>
+
+    <p class="bt-quote">
+      "The <em>fate line</em>, the <em>attribution caption</em>, and the
+      <em>'where was it going?' framing</em> — together — transform a photograph
+      from an image into a <em>witness document</em>.
+      This trio is the emotional core of every ship page."
+    </p>
+
+    <div class="bt-formula" role="figure" aria-label="The Witness Document formula">
+      <div class="bt-term">
+        Fate Line
+        <small>what became of this ship</small>
+      </div>
+      <span class="bt-op">+</span>
+      <div class="bt-term">
+        Attribution Caption
+        <small>Howard Hertzog saw this</small>
+      </div>
+      <span class="bt-op">+</span>
+      <div class="bt-term">
+        Where Was It Going?
+        <small>give the photo direction</small>
+      </div>
+      <span class="bt-op">=</span>
+      <div class="bt-result">
+        Witness Document
+        <small>the emotional core</small>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+<footer>
+  <p class="foot-text">
+    Brainstorm keepsake · Howard Hertzog WWII Ship Photography Website · 29 July 2026<br>
+    Techniques: How Might We · Reverse Brainstorming · Starbursting · Utopia vs Dystopia → Affinity Clustering → MoSCoW Convergence
+  </p>
+</footer>
+
+<script>
+// Random film-grain overlay — no external dependency
+(function () {
+  'use strict';
+  var canvas = document.createElement('canvas');
+  var size   = 256;
+  canvas.width  = size;
+  canvas.height = size;
+  var ctx  = canvas.getContext('2d');
+  var data = ctx.createImageData(size, size);
+  var d    = data.data;
+  for (var i = 0; i < d.length; i += 4) {
+    var v = Math.floor(Math.random() * 255);
+    d[i]     = v;
+    d[i + 1] = v;
+    d[i + 2] = v;
+    d[i + 3] = Math.floor(Math.random() * 16);
+  }
+  ctx.putImageData(data, 0, 0);
+  var el = document.createElement('div');
+  el.setAttribute('aria-hidden', 'true');
+  el.style.cssText = [
+    'position:fixed',
+    'top:0', 'left:0', 'right:0', 'bottom:0',
+    'pointer-events:none',
+    'z-index:9000',
+    'background-image:url(' + canvas.toDataURL() + ')',
+    'opacity:0.42',
+    'mix-blend-mode:overlay'
+  ].join(';');
+  document.body.appendChild(el);
+})();
+</script>
+
+</body>
+</html>

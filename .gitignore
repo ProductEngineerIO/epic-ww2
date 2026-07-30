@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+bower_components/
+
+# Build output
+dist/
+build/
+out/
+.next/
+.nuxt/
+.vuepress/dist/
+_site/
+public/build/
+
+# Package manager locks (keep one, ignore others as needed)
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+.idea/
+
+# Cache
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+
+# Sass cache
+.sass-cache/
+*.css.map
+*.js.map
+
+_bmad/
+.agents/
+.claude/
+.github/agents/
