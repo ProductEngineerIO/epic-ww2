@@ -1,0 +1,12 @@
+<!-- src/app/shared/components/ship-nav/ship-nav.component.html -->
+<nav class="ship-nav" aria-label="Ship navigation">
+  <a [routerLink]="['/ships', prevSlug]" class="ship-nav__link ship-nav__prev">
+    ← Previous ship
+  </a>
+  <a [routerLink]="['/']" class="ship-nav__link ship-nav__back">
+    ↑ Back to fleet
+  </a>
+  <a [routerLink]="['/ships', nextSlug]" class="ship-nav__link ship-nav__next">
+    Next ship →
+  </a>
+</nav>
