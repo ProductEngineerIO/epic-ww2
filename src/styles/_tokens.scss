@@ -32,6 +32,9 @@
   --color-on-error:       #ede9df;  // text on error background
   --color-on-primary:     #16160e;  // text on olive primary bg
 
+  // ── Z-Index ───────────────────────────────────────────────────────────────
+  --z-nav:                100;        // PersistentNav sticky layer
+
   // ── Border Radius ─────────────────────────────────────────────────────────
   --border-radius:        0;          // hard corners throughout
   --border-radius-sm:     2px;        // DossierCard only exception
