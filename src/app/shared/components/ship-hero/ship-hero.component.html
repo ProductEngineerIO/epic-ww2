@@ -4,7 +4,7 @@
     <div class="ship-hero__error-state">
       <span class="ship-hero__error-text">Image unavailable</span>
     </div>
-    <figcaption class="ship-hero__name">{{ ship.name }}</figcaption>
+    <figcaption class="ship-hero__name" aria-hidden="true">{{ ship.name }}</figcaption>
   </figure>
 } @else {
   <figure class="ship-hero">
@@ -19,6 +19,6 @@
            (load)="onImageLoad()"
            (error)="onImageError()">
     </picture>
-    <figcaption class="ship-hero__name">{{ ship.name }}</figcaption>
+    <figcaption class="ship-hero__name" aria-hidden="true">{{ ship.name }}</figcaption>
   </figure>
 }
