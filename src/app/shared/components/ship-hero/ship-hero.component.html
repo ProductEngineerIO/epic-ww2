@@ -1,0 +1,24 @@
+<!-- src/app/shared/components/ship-hero/ship-hero.component.html -->
+@if (imageError) {
+  <figure class="ship-hero ship-hero--error" aria-label="{{ ship.name }} — image unavailable">
+    <div class="ship-hero__error-state">
+      <span class="ship-hero__error-text">Image unavailable</span>
+    </div>
+    <figcaption class="ship-hero__name">{{ ship.name }}</figcaption>
+  </figure>
+} @else {
+  <figure class="ship-hero">
+    <picture>
+      <source type="image/webp"
+              [srcset]="'assets/images/hero/' + ship.slug + '.webp'">
+      <img [src]="'assets/images/hero/' + ship.slug + '.jpg'"
+           [alt]="ship.altText"
+           loading="eager"
+           class="ship-hero__img"
+           [class.is-loaded]="imageLoaded"
+           (load)="onImageLoad()"
+           (error)="onImageError()">
+    </picture>
+    <figcaption class="ship-hero__name">{{ ship.name }}</figcaption>
+  </figure>
+}
