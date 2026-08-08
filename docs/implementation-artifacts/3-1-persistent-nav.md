@@ -1,6 +1,6 @@
 # Story 3.1: Implement PersistentNav Component
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -24,49 +24,49 @@ so that I can navigate to the fleet index or the about page from anywhere on the
 
 ## Tasks / Subtasks
 
-- [ ] Generate the component (AC: 1)
-  - [ ] `ng generate component core/components/persistent-nav --standalone --flat` from `src/app/`
-  - [ ] Or create manually: `src/app/core/components/persistent-nav/persistent-nav.component.ts` + `.scss`
-- [ ] Build the component template (AC: 1, 3, 4)
-  - [ ] Import `RouterLink` and `RouterLinkActive` from `@angular/router` in the component's `imports` array
-  - [ ] Template structure: site title (as a `routerLink` to `'/'`) on the left; Fleet + About Howard links on the right
-  - [ ] Use `routerLinkActive="nav__link--active"` on each link element
-  - [ ] Use `[routerLinkActiveOptions]="{ exact: true }"` on the Fleet link (to avoid matching all routes that start with `/`)
-- [ ] Implement sticky positioning and layout (AC: 2, 6, 10)
-  - [ ] `position: sticky; top: 0; z-index: var(--z-nav)` — add `--z-nav: 100` to `src/styles/_tokens.scss` (not present from Story 1.3; must be added now)
-  - [ ] Flexbox layout: `display: flex; align-items: center; justify-content: space-between`
-  - [ ] Fixed height `56px` (from DESIGN.md PersistentNav spec)
-  - [ ] Mobile 320px: add `flex-shrink: 0` to `.nav__links` so links never compress before the title
-  - [ ] Mobile 320px: add `overflow: hidden; text-overflow: ellipsis; max-width: 180px` to `.nav__title` below 480px so long title text truncates rather than pushing links off-screen
-- [ ] Style active and rest states using tokens (AC: 5, 9, 11)
-  - [ ] `.nav__link`: `color: var(--color-steel)` at rest
-  - [ ] `.nav__link--active`: `color: var(--color-olive)`
-  - [ ] Apply `letter-spacing: var(--font-nav-link-ls)` to `.nav__link` (DESIGN.md nav-link spec includes `0.06em` letter-spacing via `--font-nav-link-ls`)
-  - [ ] `transition: color 150ms ease` on link color
-  - [ ] Add `@media (prefers-reduced-motion: reduce) { transition: none; }` inside `.nav__link` — global styles.scss does not suppress component-level transitions
-- [ ] Implement touch targets ≥44×44px (AC: 7)
-  - [ ] All three interactive elements — site title link (`.nav__title`), Fleet link, and About Howard link — must have `min-height: 44px`
-  - [ ] Fleet and About Howard links: `min-height: 44px; min-width: 44px; display: flex; align-items: center; padding: 0 0.75rem`
-  - [ ] Site title link (`.nav__title`): `display: flex; align-items: center; min-height: 44px`
-- [ ] Implement focus ring (AC: 8)
-  - [ ] Global `:focus-visible` from Story 1.3 styles.scss applies site-wide, including here
-  - [ ] Verify focus ring is visible on dark background — `var(--color-olive)` on `var(--color-surface)` passes WCAG AA
-  - [ ] Do NOT add `outline: none` anywhere in this component's SCSS
-- [ ] Verify at 320px viewport no hamburger and no horizontal scroll (AC: 6)
-  - [ ] Open Chrome DevTools → device emulation → set viewport to 320px wide
-  - [ ] Confirm no horizontal scrollbar is present at 320px (scrollWidth === clientWidth)
-  - [ ] Confirm both "Fleet" and "About Howard" labels are fully visible (not clipped)
-  - [ ] Confirm no hamburger icon or toggle button appears
-- [ ] Write unit tests (AC: 1–11)
-  - [ ] Component creates without error
-  - [ ] `<nav aria-label="Site navigation">` renders
-  - [ ] Site title link text is "Howard Hertzog — WWII Photography" and links to `/#/`
-  - [ ] Fleet link text is "Fleet" and href is `/`
-  - [ ] About Howard link text is "About Howard" and href is `/about`
-  - [ ] Exactly 2 `.nav__link` elements exist
-  - [ ] `.nav__links` has `role="list"`
-  - [ ] Site title link has an `aria-label` containing "Home"
-  - [ ] Fleet link has `routerLinkActiveOptions` set to `{ exact: true }`
+- [x] Generate the component (AC: 1)
+  - [x] `ng generate component core/components/persistent-nav --standalone --flat` from `src/app/`
+  - [x] Or create manually: `src/app/core/components/persistent-nav/persistent-nav.component.ts` + `.scss`
+- [x] Build the component template (AC: 1, 3, 4)
+  - [x] Import `RouterLink` and `RouterLinkActive` from `@angular/router` in the component's `imports` array
+  - [x] Template structure: site title (as a `routerLink` to `'/'`) on the left; Fleet + About Howard links on the right
+  - [x] Use `routerLinkActive="nav__link--active"` on each link element
+  - [x] Use `[routerLinkActiveOptions]="{ exact: true }"` on the Fleet link (to avoid matching all routes that start with `/`)
+- [x] Implement sticky positioning and layout (AC: 2, 6, 10)
+  - [x] `position: sticky; top: 0; z-index: var(--z-nav)` — add `--z-nav: 100` to `src/styles/_tokens.scss` (not present from Story 1.3; must be added now)
+  - [x] Flexbox layout: `display: flex; align-items: center; justify-content: space-between`
+  - [x] Fixed height `56px` (from DESIGN.md PersistentNav spec)
+  - [x] Mobile 320px: add `flex-shrink: 0` to `.nav__links` so links never compress before the title
+  - [x] Mobile 320px: add `overflow: hidden; text-overflow: ellipsis; max-width: 180px` to `.nav__title` below 480px so long title text truncates rather than pushing links off-screen
+- [x] Style active and rest states using tokens (AC: 5, 9, 11)
+  - [x] `.nav__link`: `color: var(--color-steel)` at rest
+  - [x] `.nav__link--active`: `color: var(--color-olive)`
+  - [x] Apply `letter-spacing: var(--font-nav-link-ls)` to `.nav__link` (DESIGN.md nav-link spec includes `0.06em` letter-spacing via `--font-nav-link-ls`)
+  - [x] `transition: color 150ms ease` on link color
+  - [x] Add `@media (prefers-reduced-motion: reduce) { transition: none; }` inside `.nav__link` — global styles.scss does not suppress component-level transitions
+- [x] Implement touch targets ≥44×44px (AC: 7)
+  - [x] All three interactive elements — site title link (`.nav__title`), Fleet link, and About Howard link — must have `min-height: 44px`
+  - [x] Fleet and About Howard links: `min-height: 44px; min-width: 44px; display: flex; align-items: center; padding: 0 0.75rem`
+  - [x] Site title link (`.nav__title`): `display: flex; align-items: center; min-height: 44px`
+- [x] Implement focus ring (AC: 8)
+  - [x] Global `:focus-visible` from Story 1.3 styles.scss applies site-wide, including here
+  - [x] Verify focus ring is visible on dark background — `var(--color-olive)` on `var(--color-surface)` passes WCAG AA
+  - [x] Do NOT add `outline: none` anywhere in this component's SCSS
+- [x] Verify at 320px viewport no hamburger and no horizontal scroll (AC: 6)
+  - [x] Open Chrome DevTools → device emulation → set viewport to 320px wide
+  - [x] Confirm no horizontal scrollbar is present at 320px (scrollWidth === clientWidth)
+  - [x] Confirm both "Fleet" and "About Howard" labels are fully visible (not clipped)
+  - [x] Confirm no hamburger icon or toggle button appears
+- [x] Write unit tests (AC: 1–11)
+  - [x] Component creates without error
+  - [x] `<nav aria-label="Site navigation">` renders
+  - [x] Site title link text is "Howard Hertzog — WWII Photography" and links to `/#/`
+  - [x] Fleet link text is "Fleet" and href is `/`
+  - [x] About Howard link text is "About Howard" and href is `/about`
+  - [x] Exactly 2 `.nav__link` elements exist
+  - [x] `.nav__links` has `role="list"`
+  - [x] Site title link has an `aria-label` containing "Home"
+  - [x] Fleet link has `routerLinkActiveOptions` set to `{ exact: true }`
 
 ## Dev Notes
 
