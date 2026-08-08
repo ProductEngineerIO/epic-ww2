@@ -1,6 +1,6 @@
 # Story 1.4: Define Ship Data Model and Initialize ships.ts
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

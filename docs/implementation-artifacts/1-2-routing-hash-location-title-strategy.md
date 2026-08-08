@@ -1,6 +1,6 @@
 # Story 1.2: Configure Routing with HashLocationStrategy and TitleStrategy
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

@@ -1,6 +1,6 @@
 # Story 1.1: Scaffold Angular 22 Standalone Project
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

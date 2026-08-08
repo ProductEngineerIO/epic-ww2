@@ -1,6 +1,6 @@
 # Story 1.3: Implement Design Token System
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
