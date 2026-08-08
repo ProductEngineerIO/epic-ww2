@@ -48,3 +48,8 @@ _bmad/
 .agents/
 .claude/
 .github/agents/
+
+# Arcwright AI
+.arcwright-ai/
+
+.env
