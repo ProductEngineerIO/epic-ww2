@@ -5,7 +5,7 @@ import {
   TitleStrategy,
   withComponentInputBinding,
   withHashLocation,
-  withRouterConfig,
+  withInMemoryScrolling,
 } from '@angular/router';
 import { routes } from './app.routes';
 import { RouterTitleStrategy } from './core/services/router-title-strategy';
@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
       routes,
       withHashLocation(),
       withComponentInputBinding(),
-      withRouterConfig({ scrollPositionRestoration: 'top' })
+      withInMemoryScrolling({ scrollPositionRestoration: 'top' })
     ),
     { provide: TitleStrategy, useClass: RouterTitleStrategy },
   ],
