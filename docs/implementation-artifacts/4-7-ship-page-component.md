@@ -16,6 +16,7 @@ so that I experience the full Witness Document Trio for any ship I navigate to.
 4. The browser tab title is set to `"[Ship Name] — Howard Hertzog WWII Photography"` automatically by `RouterTitleStrategy` from Story 1.2
 5. The page scrolls to the top on load (handled by `scrollPositionRestoration: 'top'` from Story 1.2 — no additional scroll code needed)
 6. Navigating to `/#/ships/uss-valley-forge` renders the full page without errors; the Witness Document Trio components all render (with placeholder content acceptable until Epic 8)
+7. Any ship whose data includes `isHomepageHero: true` renders identically to all other ship pages — no conditional behavior or visual difference based on this flag (it is consumed only by `HomepageHeroComponent` in Story 5.1)
 
 ## Tasks / Subtasks
 
@@ -24,7 +25,8 @@ so that I experience the full Witness Document Trio for any ship I navigate to.
   - [ ] Add `@Input() slug!: string` — no `ActivatedRoute` import
   - [ ] Inject `ShipDataService` and `Router`
 - [ ] Implement the ship lookup and not-found redirect (AC: 3)
-  - [ ] In `ngOnInit` (or `ngOnChanges` if `slug` is an input that can change): look up `this.ship = this.shipData.getBySlug(this.slug)`
+  - [ ] Implement `ngOnChanges(changes: SimpleChanges)` — **not** `ngOnInit` — so the lookup re-runs whenever `slug` changes (Angular reuses the same component instance when navigating between ship pages via ShipNav Prev/Next; `ngOnInit` only fires once and will show stale data on subsequent ships)
+  - [ ] Inside `ngOnChanges`, check `if (changes['slug'])` then look up `this.ship = this.shipData.getBySlug(this.slug)`
   - [ ] If `!this.ship`, call `this.router.navigate(['/not-found'])`
   - [ ] Guard the template with `@if (ship)` to prevent rendering before redirect completes
 - [ ] Build the template (AC: 2)
@@ -33,6 +35,7 @@ so that I experience the full Witness Document Trio for any ship I navigate to.
   - [ ] `<app-ship-hero [ship]="ship">`
   - [ ] `<app-witness-trio-block [ship]="ship">`
   - [ ] `<app-ship-nav [currentSlug]="slug">`
+  - [ ] In `ship-hero.component.html`: add `aria-hidden="true"` to the `<figcaption class="ship-hero__name">` element — the visually-hidden `<h1>` in this component is the canonical screen-reader heading; without this change, screen readers announce the ship name twice (AC: 2)
 - [ ] Import all three child components in the `imports` array (AC: 2)
 - [ ] Verify smoke test: `ng serve`, navigate to `/#/ships/uss-valley-forge`, page renders without errors (AC: 6)
 
@@ -46,7 +49,7 @@ so that I experience the full Witness Document Trio for any ship I navigate to.
 
 Angular's `withComponentInputBinding()` (configured in Story 1.2's `app.config.ts`) automatically binds route parameters to `@Input()` properties with matching names. The route `'ships/:slug'` maps to `@Input() slug!: string` in `ShipPageComponent`. No `ActivatedRoute` injection is needed.
 
-**Important:** The `slug` input is set *after* component construction, in the binding phase. Use `ngOnChanges` or `ngOnInit` to react to it — do not access `this.slug` in the constructor.
+**Important:** The `slug` input is set *after* component construction, in the binding phase. Use `ngOnChanges` — **not** `ngOnInit` — to react to it. Angular's default `RouteReuseStrategy` reuses the same component instance when navigating between routes with the same route config (e.g., ship → ship via ShipNav). `ngOnInit` fires only once; only `ngOnChanges` fires on each slug update. Do not access `this.slug` in the constructor.
 
 ### H1 and ShipHero Figcaption — Not a Duplication
 
@@ -67,7 +70,7 @@ The `<h1>` in `ShipPageComponent` is the canonical heading for screen readers.
 
 ```typescript
 // src/app/features/ship/ship-page.component.ts
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Ship } from '../../shared/models/ship.model';
 import { ShipDataService } from '../../core/services/ship-data.service';
@@ -82,7 +85,7 @@ import { ShipNavComponent } from '../../shared/components/ship-nav/ship-nav.comp
   templateUrl: './ship-page.component.html',
   styleUrl: './ship-page.component.scss',
 })
-export class ShipPageComponent implements OnInit {
+export class ShipPageComponent implements OnChanges {
   @Input() slug!: string;
 
   private readonly shipData = inject(ShipDataService);
@@ -90,10 +93,12 @@ export class ShipPageComponent implements OnInit {
 
   ship: Ship | undefined;
 
-  ngOnInit(): void {
-    this.ship = this.shipData.getBySlug(this.slug);
-    if (!this.ship) {
-      this.router.navigate(['/not-found']);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['slug']) {
+      this.ship = this.shipData.getBySlug(this.slug);
+      if (!this.ship) {
+        this.router.navigate(['/not-found']);
+      }
     }
   }
 }
@@ -143,9 +148,9 @@ export class ShipPageComponent implements OnInit {
 
 **Note on visually-hidden h1:** The ship name is visually prominent in ShipHero's figcaption overlay. The `<h1>` is for document structure and screen reader announcement. Making it visually hidden (screen-reader-only) avoids visual duplication. This is a common pattern. If the product owner prefers a visible `<h1>`, remove the visually-hidden styles — both approaches are valid.
 
-### `isHomepageHero` Has No Effect on Ship Page
+### `isHomepageHero` Has No Effect on Ship Page (AC: 7)
 
-One ship has `isHomepageHero: true` in `ships.ts`. This flag is consumed only by `HomepageHeroComponent` (Story 5.1). The `ShipPageComponent` renders all ships identically regardless of this flag — do not add any conditional logic based on `isHomepageHero` here.
+One ship has `isHomepageHero: true` in `ships.ts`. This flag is consumed only by `HomepageHeroComponent` (Story 5.1). The `ShipPageComponent` renders all ships identically regardless of this flag — do not add any conditional logic based on `isHomepageHero` here. Smoke-test this ship's page explicitly (find its slug in `ships.ts` and navigate to `/#/ships/{slug}`) to confirm AC 7.
 
 ### AD-10 Import Direction
 

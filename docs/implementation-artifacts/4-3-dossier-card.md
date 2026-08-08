@@ -27,7 +27,7 @@ so that I can absorb the three key facts about the vessel at a glance before rea
   - [ ] `get commissionedDisplay(): string`
   - [ ] `get fateDisplay(): string`
   - [ ] Falsy check: `!value || value === '[Content pending]'` → "Not confirmed"
-  - [ ] "Not confirmed" fields render in `var(--color-steel-muted)`; real values in `var(--color-on-surface)` — use `[class.is-unknown]` binding
+  - [ ] "Not confirmed" fields render in `var(--color-steel-muted)`; real values in `var(--color-on-surface)` — use `[class.dossier__value--unknown]` binding
 - [ ] Build the template with three field cells (AC: 2)
   - [ ] Each cell: `<div class="dossier__field">` → `<span class="dossier__label">` + `<span class="dossier__value">`
 - [ ] SCSS: card container + left border + responsive grid (AC: 4, 5, 6)
@@ -41,6 +41,8 @@ so that I can absorb the three key facts about the vessel at a glance before rea
 Requires **Story 1.1**, **Story 1.3** (tokens), **Story 1.4** (Ship model). Used by **Story 4.5** (WitnessTrioBlock).
 
 ### DESIGN.md Component Spec
+
+> **Border width note:** `epics.md` AC erroneously states `3px` — `DESIGN.md` is authoritative and specifies `4px`. Use `4px`.
 
 ```yaml
 DossierCard:
@@ -145,7 +147,6 @@ isUnknown(value: string): boolean {
 
   &--unknown {
     color: var(--color-steel-muted);
-    font-style: italic;
   }
 }
 ```
@@ -161,7 +162,7 @@ Must return no results.
 
 - Component dir: `src/app/shared/components/dossier-card/`
 - Three files: `.ts`, `.html`, `.scss`
-- AD-5: used only inside `WitnessTrioBlock`
+- **AD-5 guard:** `app-dossier-card` selector must appear in exactly one template: `witness-trio-block.component.html`. Do not use it in any feature component, route, or test harness directly.
 
 ### References
 

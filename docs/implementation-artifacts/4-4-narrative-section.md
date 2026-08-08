@@ -23,11 +23,20 @@ so that I understand where this vessel was going when Howard photographed it and
   - [ ] `standalone: true`, `imports: []`
   - [ ] `@Input() ship!: Ship`
 - [ ] Define a getter for "is pending" state (AC: 5)
-  - [ ] `get isPending(): boolean` — true if `narrative` is empty or `narrative[0] === '[Content pending]'`
+  - [ ] `get isPending(): boolean` — true if `narrative` is empty or every entry equals `'[Content pending]'` (use `.every()`)
 - [ ] Define a getter for caveat text (AC: 4)
   - [ ] `get caveats(): string` — returns formatted caveat using `ship.sources[0]` or fallback
 - [ ] Build the template with `@for` paragraphs and caveat (AC: 2, 4, 5)
 - [ ] SCSS: body-lg, max-width, centered, caveat styling (AC: 3, 6)
+- [ ] Write unit tests for `narrative-section.component.spec.ts`
+  - [ ] `isPending` returns `true` for empty `narrative` array
+  - [ ] `isPending` returns `true` when all entries are `'[Content pending]'`
+  - [ ] `isPending` returns `false` when at least one entry is real content
+  - [ ] `caveats` returns fallback text when `sources` is empty or contains `'[Source pending]'`
+  - [ ] `caveats` returns source-formatted text when `sources[0]` is a real citation
+  - [ ] Template renders `narrative__pending` when `isPending` is true
+  - [ ] Template renders `@for` paragraphs when `isPending` is false
+  - [ ] Caveat `<p>` is always rendered regardless of `isPending` state
 
 ## Dev Notes
 
@@ -104,7 +113,7 @@ export class NarrativeSectionComponent {
 
   get isPending(): boolean {
     return !this.ship.narrative?.length ||
-           this.ship.narrative[0] === '[Content pending]';
+           this.ship.narrative.every(p => p === '[Content pending]');
   }
 
   get caveats(): string {
@@ -152,7 +161,7 @@ export class NarrativeSectionComponent {
   color: var(--color-on-surface);
   margin-bottom: 1.25rem;
 
-  &:last-of-type {
+  &:last-child {
     margin-bottom: 0;
   }
 }
@@ -183,6 +192,7 @@ EXPERIENCE.md does not specify a heading for NarrativeSection explicitly, but us
 
 - No hex values in SCSS (AD-4)
 - Used only inside WitnessTrioBlock (AD-5)
+- **AD-5 guard:** `app-narrative-section` selector must appear in exactly one template: `witness-trio-block.component.html`. Do not use it in any feature component, route, or test harness directly.
 
 ### Project Structure Notes
 
