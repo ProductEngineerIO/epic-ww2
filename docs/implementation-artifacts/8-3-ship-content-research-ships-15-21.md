@@ -122,6 +122,8 @@ The caveat renders as: _"Historical details sourced from [sources[0]]. Accuracy 
 
 ### Researched Ship Data (Reference for Narrative Writing)
 
+> **Important — this story requires you to write the narratives.** Stories 8.1 and 8.2 supplied complete copy-paste TypeScript text; this story supplies *research notes and a narrative approach hint* only. You must compose the actual narrative paragraphs from those notes. Study the completed narratives in `docs/implementation-artifacts/8-1-ship-content-ships-1-7.md` as a tone and structure reference — same atmospheric, memorial-appropriate voice, same 2–4 paragraph structure placing each ship in its operational context and connecting it to San Francisco Bay.
+
 The following data was researched from Wikipedia and the DANFS. Use this as the factual foundation for the narrative paragraphs. Narratives should be 2–4 paragraphs of 3–6 sentences each, written in a respectful, atmospheric tone appropriate to a memorial site.
 
 ---
@@ -240,6 +242,7 @@ The following data was researched from Wikipedia and the DANFS. Use this as the 
    ```
 4. **`isHomepageHero` preservation**: USS Valley Forge already has `isHomepageHero: true`. Do not remove it. Do not add `isHomepageHero: false` to any other ship in this batch.
 5. **Slug `uss-massachusettes`**: This slug exists because the image filename is `uss-massachusettes.webp` (intentional misspelling). If the slug were corrected, the hero image would break. Leave it as-is.
+6. **`sources[0]` is rendered verbatim in the sentence** "Historical details sourced from [source]. Accuracy not guaranteed." on every ship page. The format `"Dictionary of American Naval Fighting Ships (DANFS) — Naval History and Heritage Command"` used in all 7 task entries is intentionally concise and human-readable for this purpose.
 
 ### Verify with ng serve
 
@@ -257,6 +260,7 @@ After populating all 7 ships, start `ng serve` and navigate to:
 - **Only file to modify**: `src/data/ships.ts` (imports `Ship` from `'../app/shared/models/ship.model'`)
 - **Do not** import `ships.ts` directly in any component — only `ShipDataService` consumes it (AD-3)
 - **No new files needed** — this is a pure data update
+- **Downstream dependency**: This story must be fully complete before Story 8.4 can execute. Story 8.4 verifies all 21 ships have real citations and finalizes the NarrativeSection fallback wording.
 
 ### References
 

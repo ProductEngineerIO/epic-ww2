@@ -52,6 +52,7 @@ so that those ship pages deliver the full Witness Document Trio experience with 
 - **`isHomepageHero` is not set for any of ships 1–7.** Only one ship in the entire fleet gets this flag (determined in Story 8.3). Leave it absent (undefined) for all 7 ships here.
 - **`narrative` is `string[]`** — always an array of paragraph strings, even if 2. Never a flat string.
 - **`sources` is `string[]`** — always an array even if one element.
+- **`sources[0]` is rendered verbatim in the sentence** "Historical details sourced from [source]. Accuracy not guaranteed." on every ship page. Keep it a concise, human-readable citation name — do **not** include research notes, "Note:" annotations, or unresolved-identification caveats in this string; those belong in comments or the Historical Data Confidence table, not in the rendered caveat.
 - **Historical caveat wording** is handled separately in Story 8.4 and rendered by NarrativeSection component. The `sources` array feeds that caveat. Include real source strings — they will be displayed to users.
 
 ### Ship Interface Reference
@@ -115,7 +116,7 @@ Paste these directly into `ships.ts`, replacing each ship's `[Content pending]` 
     'When Japan surrendered in August 1945, the DMS mission did not end — it expanded. Japanese engineers had planted an estimated 56,000 mines throughout home-islands coastal waters and the surrounding sea lanes, and clearing them required months of methodical, high-risk work by minesweeper divisions under post-surrender order. Ships like Doran were part of the last, unglamorous phase of the Pacific war: clearing the sea lanes so that occupation forces could transit safely and that merchant shipping could resume without catastrophe. That work, conducted through the fall of 1945 and into 1946, extended the combat mission long after the formal surrender ceremony on the deck of USS Missouri.',
   ],
   sources: [
-    'DANFS – Dictionary of American Naval Fighting Ships (DMS class entries); NavSource Online destroyer minesweeper index; U.S. Navy Mine Warfare historical records, National Archives RG 38. Note: exact DMS hull number and conversion date for Doran are not confirmed from available secondary sources; identified from photograph labeling.',
+    'DANFS – Dictionary of American Naval Fighting Ships (DMS class entries); NavSource Online destroyer minesweeper index; U.S. Navy Mine Warfare historical records, National Archives RG 38',
   ],
   altText: 'DMS Doran, photographed by Howard Hertzog, San Francisco Bay, c. 1944–1946',
 },
@@ -138,7 +139,7 @@ Paste these directly into `ships.ts`, replacing each ship's `[Content pending]` 
     'In the war\'s final months and the extended repatriation period that followed, ships like General Hersey reversed course for Operation Magic Carpet — the Navy\'s extraordinary program to return more than eight million servicemen from the Pacific and European theaters in under a year. What had been outbound voyages laden with anxious young soldiers became homebound voyages of exhausted, grateful ones. For a ship photographed at San Francisco Bay in precisely this window of history, both directions of that circuit are present in the image: the departure for war and the return from it, the same harbor serving both.',
   ],
   sources: [
-    'DANFS – Dictionary of American Naval Fighting Ships (C4 transport series, General-class entries); U.S. Army Transport Service records; NavSource Online C4 transport section. Note: specific AP hull number for "General Hersey" not confirmed; identified from photograph labeling.',
+    'DANFS – Dictionary of American Naval Fighting Ships (C4 transport series, General-class entries); U.S. Army Transport Service records; NavSource Online C4 transport section',
   ],
   altText: 'General Hersey, photographed by Howard Hertzog, San Francisco Bay, c. 1944–1946',
 },
@@ -184,7 +185,7 @@ Paste these directly into `ships.ts`, replacing each ship's `[Content pending]` 
     'The photograph of LSM-276 in San Francisco Bay is a portrait of a ship whose purpose was measured not in gun barrels or knots of speed but in the weight of what she could deposit on a contested shore in a single tide cycle. These were not the ships of naval legend — no destroyer\'s silhouette, no battleship\'s thunder — but they were the ships without which no island fell, no beachhead held, no advance was possible. In the immediate post-war period, many LSMs remained in service for occupation duty in Japan and Korea, their tank decks carrying the material of reconstruction rather than assault.',
   ],
   sources: [
-    'DANFS – Dictionary of American Naval Fighting Ships, LSM-1 class entry; NavSource Online LSM section; U.S. Navy Amphibious Forces Pacific operational histories, National Archives RG 38. Note: specific operational records and fate for hull LSM-276 individually not confirmed; class history confirmed from secondary sources.',
+    'DANFS – Dictionary of American Naval Fighting Ships, LSM-1 class entry; NavSource Online LSM section; U.S. Navy Amphibious Forces Pacific operational histories, National Archives RG 38',
   ],
   altText: 'LSM-276, photographed by Howard Hertzog, San Francisco Bay, c. 1944–1946',
 },
@@ -207,7 +208,7 @@ Paste these directly into `ships.ts`, replacing each ship's `[Content pending]` 
     'The YT-class and YTB-class harbor tugs were built for exactly this work: short-range, high-bollard-pull operations in confined tidal water, nudging vessels ten or twenty times their own tonnage to within inches of a pier. Their crews were Navy enlisted men who spent the entire war never leaving San Francisco Bay — who served in anonymity while the ships they tended departed for battles that made headlines and history. Howard Hertzog\'s photograph of Tug 181 is a rare acknowledgment of that invisible service: a record that the logistics of the Pacific war required not only destroyers and carriers but the humble, indispensable vessels that kept every departure and every homecoming possible.',
   ],
   sources: [
-    'U.S. Navy Bureau of Ships yard tug and harbor tug records, National Archives RG 19; NavSource Online auxiliary vessel section; DANFS auxiliary vessel appendix. Note: specific hull records for "Tug 181" not confirmed from available secondary sources; identified from photograph labeling. Exact vessel class (YT, YTB, YTL, or ATF) not determined.',
+    'U.S. Navy Bureau of Ships yard tug and harbor tug records, National Archives RG 19; NavSource Online auxiliary vessel section; DANFS auxiliary vessel appendix',
   ],
   altText: 'Tug 181, photographed by Howard Hertzog, San Francisco Bay, c. 1944–1946',
 },
@@ -287,3 +288,5 @@ claude-sonnet-4-5
 ### Completion Notes List
 
 ### File List
+
+- `src/data/ships.ts` — Update entries at array indices 0–6 with researched data

@@ -1,6 +1,6 @@
 # Story 6.1 + 6.2: Implement Supporting Placeholder Pages
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

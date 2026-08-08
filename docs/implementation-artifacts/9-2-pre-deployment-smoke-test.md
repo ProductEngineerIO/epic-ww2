@@ -40,8 +40,9 @@ so that no broken links, missing images, or failed routes reach the live domain.
   - [ ] Note initial bundle sizes from build output; flag anything over 1 MB initial as a concern
 
 - [ ] **Start local static server** (AC: 2–11)
-  - [ ] Run `npx http-server dist/epic-ww2/browser -p 4200 --proxy http://localhost:4200?` (the `--proxy` flag routes all 404s back to index.html, mimicking Bluehost behavior with HashLocationStrategy)
-  - [ ] Alternatively, `ng serve` is acceptable for dev-build testing but production build + static server is the authoritative check
+  - [ ] Run `npx http-server dist/epic-ww2/browser -p 4200` to serve the built output on port 4200
+  - [ ] Alternatively, `python3 -m http.server 4200` from inside `dist/epic-ww2/browser/` works equally well
+  - [ ] **Note:** No `--proxy` or 404-rewrite flag is needed. HashLocationStrategy means the browser only ever requests `index.html` from the server; the `/#/...` fragment is resolved client-side. Any basic static server is sufficient.
   - [ ] Open browser at `http://localhost:4200`
 
 - [ ] **Homepage smoke test** (AC: 2)

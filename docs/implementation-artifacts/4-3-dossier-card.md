@@ -1,6 +1,6 @@
 # Story 4.3: Implement DossierCard Component
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

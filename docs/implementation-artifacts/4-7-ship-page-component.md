@@ -1,6 +1,6 @@
 # Story 4.7: Implement ShipPageComponent Feature
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

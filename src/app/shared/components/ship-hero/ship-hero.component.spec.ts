@@ -37,31 +37,31 @@ describe('ShipHeroComponent', () => {
 
   describe('initial state', () => {
     it('should have imageLoaded as false on init', () => {
-      expect(component.imageLoaded).toBeFalse();
+      expect(component.imageLoaded).toBe(false);
     });
 
     it('should have imageError as false on init', () => {
-      expect(component.imageError).toBeFalse();
+      expect(component.imageError).toBe(false);
     });
   });
 
   describe('onImageLoad()', () => {
     it('should set imageLoaded to true', () => {
       component.onImageLoad();
-      expect(component.imageLoaded).toBeTrue();
+      expect(component.imageLoaded).toBe(true);
     });
   });
 
   describe('onImageError()', () => {
     it('should set imageError to true', () => {
       component.onImageError();
-      expect(component.imageError).toBeTrue();
+      expect(component.imageError).toBe(true);
     });
   });
 
   describe('default template (no error)', () => {
     it('should render a <picture> element when imageError is false', () => {
-      expect(component.imageError).toBeFalse();
+      expect(component.imageError).toBe(false);
       const picture = fixture.nativeElement.querySelector('picture');
       expect(picture).not.toBeNull();
     });
@@ -95,7 +95,7 @@ describe('ShipHeroComponent', () => {
       component.onImageLoad();
       fixture.detectChanges();
       const img = fixture.nativeElement.querySelector('img');
-      expect(img.classList.contains('is-loaded')).toBeTrue();
+      expect(img.classList.contains('is-loaded')).toBe(true);
     });
   });
 

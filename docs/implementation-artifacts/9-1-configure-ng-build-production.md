@@ -66,7 +66,7 @@ Key existing configuration:
 Critical facts:
 - `outputPath: "dist/epic-ww2/browser"` is the correct upload source for Bluehost — the contents of this folder go directly into `public_html/`
 - `defaultConfiguration: "production"` means `ng build` already runs the production config (esbuild optimization, tree-shaking, output hashing)
-- Builder is `@angular/build:application` — Angular 22's esbuild-based builder, not the legacy webpack builder. The `--base-href` CLI flag is fully supported
+- Builder is `@angular/build:application` — Angular 21's esbuild-based builder, not the legacy webpack builder. The `--base-href` CLI flag is fully supported
 
 ### The One Code Change Required
 
@@ -120,7 +120,7 @@ import { AboutComponent } from './features/about/about.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
 ```
 
-For this small 21-ship SPA with no third-party heavy dependencies, eager loading is appropriate. Angular 22's esbuild optimizer handles tree-shaking automatically. Do not introduce lazy loading (`loadComponent: () => import(...)`) — it is out of scope and untested.
+For this small 21-ship SPA with no third-party heavy dependencies, eager loading is appropriate. Angular 21's esbuild optimizer handles tree-shaking automatically. Do not introduce lazy loading (`loadComponent: () => import(...)`) — it is out of scope and untested.
 
 ### Expected Build Output Structure
 
@@ -146,7 +146,7 @@ The current production budget is:
 - Warning: 500kB initial bundle
 - Error: 1MB initial bundle
 
-This SPA has no heavy third-party dependencies. Angular 22 with esbuild produces highly optimized bundles. Expected initial bundle: well under 200kB. If a budget WARNING appears, check `angular.json` for accidental dev-only imports that made it into the production bundle.
+This SPA has no heavy third-party dependencies. Angular 21 with esbuild produces highly optimized bundles. Expected initial bundle: well under 200kB. If a budget WARNING appears, check `angular.json` for accidental dev-only imports that made it into the production bundle.
 
 If a budget ERROR appears: do not raise the limit without investigation. Identify the offending module using `ng build --stats-json` and the `webpack-bundle-analyzer` equivalent for esbuild.
 

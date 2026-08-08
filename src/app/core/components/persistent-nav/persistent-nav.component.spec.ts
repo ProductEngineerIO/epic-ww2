@@ -30,14 +30,13 @@ describe('PersistentNavComponent', () => {
   // AC-1: nav landmark with accessible label
   it('should render a <nav> with aria-label="Site navigation"', () => {
     const nav = nativeEl.querySelector('nav[aria-label="Site navigation"]');
-    expect(nav).withContext('<nav aria-label="Site navigation"> must exist').toBeTruthy();
+    expect(nav).toBeTruthy();
   });
 
   // AC-1: site title text
   it('should render the site title link text "Howard Hertzog — WWII Photography"', () => {
     const titleLink = nativeEl.querySelector('.nav__title');
     expect(titleLink?.textContent?.trim())
-      .withContext('Site title text must be exact')
       .toBe('Howard Hertzog — WWII Photography');
   });
 
@@ -45,7 +44,6 @@ describe('PersistentNavComponent', () => {
   it('should have an aria-label containing "Home" on the site title link', () => {
     const titleLink = nativeEl.querySelector('.nav__title');
     expect(titleLink?.getAttribute('aria-label'))
-      .withContext('Site title aria-label must mention Home')
       .toContain('Home');
   });
 
@@ -53,9 +51,8 @@ describe('PersistentNavComponent', () => {
   it('should render a Fleet link with href="/"', () => {
     const links = Array.from(nativeEl.querySelectorAll<HTMLAnchorElement>('.nav__link'));
     const fleetLink = links.find(l => l.textContent?.trim() === 'Fleet');
-    expect(fleetLink).withContext('Fleet .nav__link must exist').toBeTruthy();
+    expect(fleetLink).toBeTruthy();
     expect(fleetLink?.getAttribute('href'))
-      .withContext('Fleet href must be /')
       .toBe('/');
   });
 
@@ -63,23 +60,21 @@ describe('PersistentNavComponent', () => {
   it('should render an About Howard link with href="/about"', () => {
     const links = Array.from(nativeEl.querySelectorAll<HTMLAnchorElement>('.nav__link'));
     const aboutLink = links.find(l => l.textContent?.trim() === 'About Howard');
-    expect(aboutLink).withContext('About Howard .nav__link must exist').toBeTruthy();
+    expect(aboutLink).toBeTruthy();
     expect(aboutLink?.getAttribute('href'))
-      .withContext('About Howard href must be /about')
       .toBe('/about');
   });
 
   // AC-1: exactly two nav links
   it('should render exactly 2 .nav__link elements', () => {
     const links = nativeEl.querySelectorAll('.nav__link');
-    expect(links.length).withContext('Only Fleet and About Howard links should exist').toBe(2);
+    expect(links.length).toBe(2);
   });
 
   // Accessibility: list semantics for Safari VoiceOver
   it('should have role="list" on .nav__links', () => {
     const navLinks = nativeEl.querySelector('.nav__links');
     expect(navLinks?.getAttribute('role'))
-      .withContext('.nav__links must have role="list" for VoiceOver')
       .toBe('list');
   });
 
@@ -90,12 +85,10 @@ describe('PersistentNavComponent', () => {
       el => (el.nativeElement as HTMLElement).textContent?.trim() === 'Fleet'
     );
     expect(fleetDebugEl)
-      .withContext('Fleet debug element must be found')
       .toBeTruthy();
 
     const rla = fleetDebugEl!.injector.get(RouterLinkActive);
     expect(rla.routerLinkActiveOptions)
-      .withContext('Fleet routerLinkActiveOptions must be { exact: true }')
       .toEqual({ exact: true });
   });
 });

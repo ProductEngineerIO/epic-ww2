@@ -1,6 +1,6 @@
 # Story 5.1: Implement HomepageHero Component
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

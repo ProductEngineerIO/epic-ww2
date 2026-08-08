@@ -1,6 +1,6 @@
 # Story 5.2: Implement FleetGrid Component
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

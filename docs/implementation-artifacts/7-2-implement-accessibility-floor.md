@@ -70,7 +70,7 @@ so that the site is accessible to all readers, including Howard's family members
   ```
 - [ ] In `ship-hero.component.html`, replace `[alt]="ship.altText"` with `[alt]="computedAltText"` on the `<img>` element
 
-### Task 3 — ShipHero: reduced motion — no blur under preference (AC: 5)
+### Task 3 — Reduced motion — no blur under preference (AC: 5)
 - [ ] In `src/app/shared/components/ship-hero/ship-hero.component.scss`, add an explicit reduced-motion block so the image never starts blurred when the user prefers reduced motion:
   ```scss
   @media (prefers-reduced-motion: reduce) {
@@ -81,6 +81,16 @@ so that the site is accessible to all readers, including Howard's family members
   }
   ```
   *Note: The current implementation only adds transition under `no-preference` — so the transition is suppressed. But the initial `filter: blur(8px)` and `transform: scale(1.05)` are still applied. The `is-loaded` class then removes them instantly (no animation). Under reduced motion, users experience a flash of blurred image before `onImageLoad()` fires. This fix makes the image render sharp from the start.*
+- [ ] In `src/app/shared/components/homepage-hero/homepage-hero.component.scss`, add the identical reduced-motion block — `HomepageHero` has the same blur-up pattern and the same initial-state problem:
+  ```scss
+  @media (prefers-reduced-motion: reduce) {
+    .homepage-hero__img {
+      filter: none;
+      transform: none;
+    }
+  }
+  ```
+  *Note: The global catch-all in Task 4 suppresses `transition-duration` but does NOT reset `filter` or `transform`. Without this fix, HomepageHero also flashes a blurred initial frame under `prefers-reduced-motion: reduce`.*
 
 ### Task 4 — Global reduced motion catch-all in styles.scss (AC: 5)
 - [ ] In `src/styles/styles.scss`, add a global reduced motion catch-all rule **after** the existing `:focus-visible` block:
@@ -101,7 +111,19 @@ so that the site is accessible to all readers, including Howard's family members
 
 ### Task 5 — Semantic HTML audit: ShipPageComponent (AC: 2)
 **Prerequisite: Story 4.7 must be complete.**
-- [ ] Verify `src/app/features/ship/ship-page.component.ts` contains:
+- [ ] **Fix nested `<main>` landmark:** `AppComponent` already wraps `<router-outlet>` in `<main>`; `ship-page.component.html` must NOT add a second `<main>`. Remove the outer `<main>` wrapper from `ship-page.component.html` so `<article>` is the direct child of the router outlet:
+  ```html
+  @if (ship) {
+    <article class="ship-page">
+      <h1 class="ship-page__title">{{ ship.name }}</h1>
+      <app-ship-hero [ship]="ship" />
+      <app-witness-trio-block [ship]="ship" />
+      <app-ship-nav [currentSlug]="slug" />
+    </article>
+  }
+  ```
+  *Rationale: A page must have exactly one `<main>` landmark (WCAG 1.3.1). Two nested `<main>` elements cause ambiguous landmark announcements in VoiceOver, NVDA, and JAWS. `HomeComponent` and `NotFoundComponent` correctly use `<div>` / no wrapper since `AppComponent` provides `<main>`.*
+- [ ] Verify `src/app/features/ship/ship-page.component.html` contains:
   - `<article>` as the semantic wrapper for ship page content
   - `<h1>{{ ship.name }}</h1>` as the primary page heading (rendered once, not inside ShipHero's figcaption)
   - `<app-ship-hero>`, `<app-witness-trio-block>`, `<app-ship-nav>` in that order inside `<article>`
@@ -178,6 +200,10 @@ The FleetGrid component should compute: `[alt]="ship.name + ' — thumbnail'"`.
 ### Why HomepageHero Alt Text Differs (Task 6)
 
 Story 5.1 specifies the homepage hero uses: `"[Ship name], photographed by Howard Hertzog"` — no "San Francisco Bay, c. 1944–1946" suffix. The homepage hero is an editorial statement, not a ship dossier entry. The shorter attribution reinforces the homepage's atmospheric role without the dossier formality.
+
+### Nested `<main>` in ShipPageComponent (Task 5)
+
+`AppComponent` wraps `<router-outlet>` in `<main>`. `ShipPageComponent` previously wrapped its content in a second `<main>`, producing nested `<main>` landmarks on every ship page. A page must have exactly one `<main>` (WCAG 1.3.1 / ARIA landmarks spec). `HomeComponent` and `NotFoundComponent` correctly use `<div>` / no extra wrapper since `AppComponent` provides `<main>`. The fix is to remove the outer `<main>` from `ship-page.component.html` and let `<article>` be the direct child — `<article>` is the correct semantic wrapper for ship page content regardless.
 
 ### Reduced Motion — Why `0.01ms` Not `0` (Task 4)
 

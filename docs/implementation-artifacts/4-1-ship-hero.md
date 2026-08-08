@@ -1,6 +1,6 @@
 # Story 4.1: Implement ShipHero Component
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

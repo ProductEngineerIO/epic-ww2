@@ -24,7 +24,7 @@ so that I trust the content enough to share the site without embarrassment about
   - [ ] Confirm 8.1 is done: ships 1–7 have real `sources`, `narrative`, `vesselClass`, `commissioned`, `fate`, `altText`
   - [ ] Confirm 8.2 is done: ships 8–14 have real `sources`, `narrative`, `vesselClass`, `commissioned`, `fate`, `altText`
   - [ ] Confirm 8.3 is done: ships 15–21 have real `sources`, `narrative`, `vesselClass`, `commissioned`, `fate`, `altText`
-  - [ ] If any story is not done, populate any remaining `'[Source pending]'` entries before continuing
+  - [ ] **If any story is not done: STOP.** Do not populate ship data as part of this story. Update the sprint status for the incomplete story to `in-progress`, complete it fully (following that story’s own dev notes), mark it `done`, then return to this story.
 
 - [ ] **Finalize fallback caveat wording** (AC: 3, 7)
   - [ ] Open `src/app/shared/components/narrative-section/narrative-section.component.ts`
@@ -144,11 +144,17 @@ This story has minimal unit-test changes. The main test file is:
 Only update tests if the fallback wording changes. The tests to check:
 ```typescript
 // Check these two tests — update expected string if "sources" → "records"
-it('caveats returns fallback text when sources is empty', ...)
-it('caveats returns fallback text when sources[0] is [Source pending]', ...)
+it('caveats returns fallback text when sources is empty', ...)  // exact match:
+// expect(component.caveats).toBe('Historical details sourced from historical sources. Accuracy not guaranteed.');
+it('caveats returns fallback text when sources[0] is [Source pending]', ...) // exact match:
+// expect(component.caveats).toBe('Historical details sourced from historical sources. Accuracy not guaranteed.');
 ```
+Both tests currently assert the string `'Historical details sourced from historical sources. Accuracy not guaranteed.'`— update both to `'Historical details sourced from historical records. Accuracy not guaranteed.'`.
 
-No new test files need to be created for this story.
+Also run a project-wide search for the old string to catch any other spec files that may assert on it:
+```
+grep -r "historical sources" src/
+```
 
 ### Project Structure Notes
 

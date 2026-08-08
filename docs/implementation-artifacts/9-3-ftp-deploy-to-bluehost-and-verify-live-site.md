@@ -153,13 +153,15 @@ The fleet order in `ships.ts` defines the ShipNav Prev/Next sequence. Position 1
 | 20 | `uss-valley-forge` | USS Valley Forge ★ | `isHomepageHero: true` — HomepageHero renders this image |
 | 21 | `uss-vicksburg` | USS Vicksburg | |
 
-★ Circular nav: ship 21 (Vicksburg) Prev → ship 20 (Valley Forge); ship 1 (Burton Island) Prev → ship 21 (Vicksburg).
+★ `isHomepageHero: true` — this ship's photograph is used by the HomepageHero component on the homepage.
+
+**Circular navigation boundaries:** ship 1 (Burton Island AG-88) **Prev** → ship 21 (USS Vicksburg); ship 21 (USS Vicksburg) **Next** → ship 1 (Burton Island AG-88).
 
 ### PRD §5 Completion Gate
 
 Story 9.3 is the final story in the project. It is complete only when every item below is verified **on the live site** at www.ww2epic.com:
 
-- [ ] All 21 ship pages live with complete Witness Document Trio — no `[Content pending]` anywhere
-- [ ] No broken links — all routes resolve, no server 404s
-- [ ] No horizontal scroll at 320px–428px viewport widths
-- [ ] Howard Hertzog credited via AttributionCaption on every ship page
+- All 21 ship pages live with complete Witness Document Trio — no `[Content pending]` anywhere
+- No broken links — all routes resolve, no server 404s
+- No horizontal scroll at 320px–428px viewport widths
+- Howard Hertzog credited via AttributionCaption on every ship page

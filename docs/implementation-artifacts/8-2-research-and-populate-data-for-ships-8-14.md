@@ -35,7 +35,14 @@ so that those ship pages deliver the full Witness Document Trio experience and n
 - [ ] Task 2: Verify no TypeScript compile errors after edit (AC: 5)
   - [ ] 2.1 Run `ng build` or `npx tsc --noEmit` and confirm zero errors
 - [ ] Task 3: Smoke test in running app (AC: 3)
-  - [ ] 3.1 Run `ng serve`, navigate to each of the 7 ship pages (`/#/ships/uss-atlanta`, etc.) and confirm no "Content pending" text appears in WitnessTrioBlock
+  - [ ] 3.1 Run `ng serve` and navigate to each of the 7 ship pages to confirm no "Content pending" text appears in WitnessTrioBlock:
+    - `/#/ships/uss-atlanta`
+    - `/#/ships/uss-benham`
+    - `/#/ships/uss-caiman`
+    - `/#/ships/uss-chipola`
+    - `/#/ships/uss-columbus`
+    - `/#/ships/uss-haven`
+    - `/#/ships/uss-keppler`
 
 ## Dev Notes
 
@@ -250,6 +257,7 @@ The following data has been researched and verified against DANFS, NavSource, an
 - **Only file to touch:** `src/data/ships.ts`
 - **Array positions:** USS Atlanta is at index 7, USS Benham at 8, USS Caiman at 9, USS Chipola at 10, USS Columbus at 11, USS Haven at 12, USS Keppler at 13 (0-indexed). Verify by counting entries in the file before editing.
 - **`isHomepageHero`:** Omit this field entirely from all 7 entries (leave as `undefined`). One ship in Story 8.3 / an earlier story will have `isHomepageHero: true` — do not add it here.
+- **Downstream dependency:** This story must be fully complete before Story 8.4 can be executed. Story 8.4 verifies all 21 ships have real citations and finalizes the NarrativeSection fallback wording.
 - **TypeScript:** The `narrative` and `sources` fields are typed `string[]`. Ensure backtick template literals use escaped single quotes (or use double quotes) inside string values if needed.
 
 ### References

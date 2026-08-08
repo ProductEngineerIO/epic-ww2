@@ -1,6 +1,6 @@
 # Story 6.2: Implement NotFoundComponent
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

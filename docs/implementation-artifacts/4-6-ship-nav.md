@@ -1,6 +1,6 @@
 # Story 4.6: Implement ShipNav Component
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

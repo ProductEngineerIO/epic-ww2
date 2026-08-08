@@ -29,11 +29,10 @@ const nonHeroShip: Ship = {
 describe('HomepageHeroComponent', () => {
   let component: HomepageHeroComponent;
   let fixture: ComponentFixture<HomepageHeroComponent>;
-  let mockShipDataService: jasmine.SpyObj<ShipDataService>;
+  let mockShipDataService: { getAll: ReturnType<typeof vi.fn> };
 
   beforeEach(async () => {
-    mockShipDataService = jasmine.createSpyObj('ShipDataService', ['getAll']);
-    mockShipDataService.getAll.and.returnValue([nonHeroShip, heroShip]);
+    mockShipDataService = { getAll: vi.fn().mockReturnValue([nonHeroShip, heroShip]) };
 
     await TestBed.configureTestingModule({
       imports: [HomepageHeroComponent],
@@ -52,21 +51,21 @@ describe('HomepageHeroComponent', () => {
   });
 
   it('should have imageLoaded false on init', () => {
-    expect(component.imageLoaded).toBeFalse();
+    expect(component.imageLoaded).toBe(false);
   });
 
   it('should set imageLoaded to true when onImageLoad is called', () => {
     component.onImageLoad();
-    expect(component.imageLoaded).toBeTrue();
+    expect(component.imageLoaded).toBe(true);
   });
 
   it('should have imageError false on init', () => {
-    expect(component.imageError).toBeFalse();
+    expect(component.imageError).toBe(false);
   });
 
   it('should set imageError to true when onImageError is called', () => {
     component.onImageError();
-    expect(component.imageError).toBeTrue();
+    expect(component.imageError).toBe(true);
   });
 
   it('should find the ship with isHomepageHero true', () => {
@@ -96,11 +95,11 @@ describe('HomepageHeroComponent', () => {
   });
 
   it('should render nothing when no ship has isHomepageHero: true', async () => {
-    mockShipDataService.getAll.and.returnValue([nonHeroShip]);
+    mockShipDataService.getAll.mockReturnValue([nonHeroShip]);
     fixture = TestBed.createComponent(HomepageHeroComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    expect(component.ship).toBeNull();
+    expect(component.ship).toBe(null);
     const figure = fixture.nativeElement.querySelector('figure');
     expect(figure).toBeNull();
   });

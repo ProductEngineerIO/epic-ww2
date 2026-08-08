@@ -1,6 +1,6 @@
 # Story 4.2: Implement AttributionCaption Component
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

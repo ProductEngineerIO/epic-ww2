@@ -35,32 +35,36 @@ describe('WitnessTrioBlockComponent', () => {
   describe('narrativePending getter', () => {
     it('returns true for an empty narrative array', () => {
       component.ship = { ...baseShip, narrative: [] };
-      expect(component.narrativePending).toBeTrue();
+      expect(component.narrativePending).toBe(true);
     });
 
     it('returns true when all entries equal "[Content pending]"', () => {
       component.ship = { ...baseShip, narrative: ['[Content pending]', '[Content pending]'] };
-      expect(component.narrativePending).toBeTrue();
+      expect(component.narrativePending).toBe(true);
     });
 
     it('returns false when at least one entry is real content', () => {
       component.ship = { ...baseShip, narrative: ['[Content pending]', 'The ship sailed north.'] };
-      expect(component.narrativePending).toBeFalse();
+      expect(component.narrativePending).toBe(false);
     });
 
     it('returns false when all entries are real content', () => {
       component.ship = { ...baseShip, narrative: ['The ship sailed north.', 'It arrived safely.'] };
-      expect(component.narrativePending).toBeFalse();
+      expect(component.narrativePending).toBe(false);
     });
   });
 
   // --- ngOnInit warning checks ---
 
   describe('ngOnInit', () => {
-    let warnSpy: jasmine.Spy;
+    let warnSpy: ReturnType<typeof vi.spyOn>;
 
     beforeEach(() => {
-      warnSpy = spyOn(console, 'warn');
+      warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
     });
 
     it('calls console.warn for narrative when narrativePending is true (empty array)', () => {
