@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USS Valley Forge — Howard Hertzog WWII Ship Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── DESIGN TOKENS ──────────────────────────────────────────────── */
+:root {
+  --bg:             #16160e;
+  --surface:        #23231a;
+  --surface-raised: #2e2e22;
+  --on-surface:     #ede9df;
+  --khaki:          #c9b87a;
+  --steel:          #8a9aaa;
+  --steel-muted:    #5a6870;
+  --olive:          #7a8c44;
+  --outline:        #4a5a6a;
+  --outline-v:      #3d3d2e;
+  --overlay:        rgba(22, 22, 14, 0.82);
+  --font-slab:      'Roboto Slab', Georgia, serif;
+  --font-lora:      'Lora', Georgia, serif;
+  --max-w:          880px;
+  --max-w-narrow:   660px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  background: var(--bg);
+  color: var(--on-surface);
+  font-family: var(--font-lora);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* Grain texture */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── PERSISTENT NAV ─────────────────────────────────────────────── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--outline-v);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+.nav-title {
+  font-family: var(--font-slab);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--khaki);
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-family: var(--font-slab);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--steel);
+  text-decoration: none;
+}
+.nav-links a:hover { color: var(--olive); }
+
+/* ── SHIP HERO ──────────────────────────────────────────────────── */
+.ship-hero {
+  position: relative;
+  width: 100%;
+  height: clamp(400px, 68vh, 680px);
+  overflow: hidden;
+  background: var(--surface-raised);
+}
+
+/* Simulated photograph atmosphere — Pacific grey-green, Hunters Point / Bay */
+.ship-hero-photo {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 60%, #1e2820 0%, #0e1510 50%, #0c1218 100%);
+}
+
+/* Simulated USS Valley Forge (Essex-class carrier silhouette) */
+.ship-hero-photo svg {
+  position: absolute;
+  bottom: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  max-width: 700px;
+  opacity: 0.45;
+}
+
+/* Horizon line */
+.ship-hero-photo::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: 62%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #4a5a5a 20%, #4a5a5a 80%, transparent);
+  opacity: 0.3;
+}
+
+/* Gradient overlay for ship name text */
+.ship-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, var(--overlay) 100%);
+}
+
+.ship-hero-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 0 24px 32px;
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.ship-name {
+  font-family: var(--font-slab);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 700;
+  color: var(--khaki);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+/* ── WITNESS TRIO BLOCK ─────────────────────────────────────────── */
+.witness-trio {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── ATTRIBUTION CAPTION ────────────────────────────────────────── */
+.attribution-caption {
+  margin-top: 0.75rem;
+  margin-bottom: 2.5rem;
+  font-family: var(--font-slab);
+  font-size: 0.8rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--steel);
+  line-height: 1.5;
+}
+
+/* ── DOSSIER CARD ───────────────────────────────────────────────── */
+.dossier-card {
+  background: var(--surface-raised);
+  border-left: 4px solid var(--olive);
+  border-radius: 2px;
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+@media (max-width: 600px) {
+  .dossier-card { grid-template-columns: 1fr; gap: 1.25rem; }
+}
+
+.dossier-field-label {
+  font-family: var(--font-slab);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--steel);
+  margin-bottom: 0.4rem;
+  display: block;
+}
+.dossier-field-value {
+  font-family: var(--font-slab);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--on-surface);
+  line-height: 1.3;
+}
+
+/* ── NARRATIVE SECTION ──────────────────────────────────────────── */
+.narrative-section {
+  max-width: var(--max-w-narrow);
+  margin-bottom: 3rem;
+}
+.narrative-heading {
+  font-family: var(--font-slab);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--steel);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--outline-v);
+}
+.narrative-body {
+  font-family: var(--font-lora);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--on-surface);
+}
+.narrative-body p + p { margin-top: 1.25rem; }
+
+.historical-caveat {
+  margin-top: 1.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--outline-v);
+  font-family: var(--font-slab);
+  font-size: 0.78rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--steel-muted);
+  line-height: 1.5;
+}
+
+/* ── SHIP NAV ───────────────────────────────────────────────────── */
+.ship-nav {
+  background: var(--surface);
+  border-top: 1px solid var(--outline-v);
+  padding: 1.5rem 24px;
+  margin-top: 1rem;
+}
+.ship-nav-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.ship-nav-link {
+  font-family: var(--font-slab);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--khaki);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 150ms;
+}
+.ship-nav-link:hover { color: var(--olive); }
+.ship-nav-link.back {
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--olive);
+}
+.ship-nav-link.back:hover { color: var(--khaki); }
+
+@media (max-width: 560px) {
+  .ship-nav-inner { flex-wrap: wrap; justify-content: space-between; }
+  .ship-nav-link.back { order: 3; width: 100%; text-align: center; margin-top: 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- PERSISTENT NAV -->
+<nav class="nav" aria-label="Site navigation">
+  <a class="nav-title" href="#">Howard Hertzog — WWII Ship Photography</a>
+  <ul class="nav-links">
+    <li><a href="#/">Fleet</a></li>
+    <li><a href="#/about">About Howard</a></li>
+  </ul>
+</nav>
+
+<!-- SHIP HERO -->
+<article aria-labelledby="ship-name">
+  <figure class="ship-hero">
+    <div class="ship-hero-photo">
+      <!-- Simulated Essex-class carrier silhouette (USS Valley Forge CV-45) -->
+      <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Hull -->
+        <path d="M 40 160 L 660 148 L 675 172 L 630 185 L 70 188 L 25 172 Z" fill="#1a2018" stroke="#3a4828" stroke-width="1"/>
+        <!-- Flight deck (carrier) -->
+        <rect x="30" y="110" width="640" height="42" fill="#1e2418" stroke="#3a4828" stroke-width="0.8"/>
+        <!-- Island superstructure -->
+        <rect x="540" y="60" width="80" height="52" fill="#1c2218" stroke="#3a4828" stroke-width="0.8"/>
+        <rect x="558" y="38" width="44" height="24" fill="#1e2418" stroke="#3a4828" stroke-width="0.6"/>
+        <!-- Mast -->
+        <line x1="580" y1="10" x2="580" y2="38" stroke="#4a5a48" stroke-width="2"/>
+        <line x1="550" y1="22" x2="610" y2="22" stroke="#4a5a48" stroke-width="1"/>
+        <!-- Flight deck markings suggestion -->
+        <line x1="40" y1="131" x2="520" y2="125" stroke="#3a4828" stroke-width="0.5" opacity="0.6"/>
+        <!-- Elevator cutout suggestion -->
+        <rect x="460" y="110" width="55" height="42" fill="#162014" stroke="#3a4828" stroke-width="0.5" opacity="0.6"/>
+      </svg>
+    </div>
+    <figcaption class="ship-hero-content">
+      <h1 class="ship-name" id="ship-name">USS Valley Forge</h1>
+    </figcaption>
+  </figure>
+
+  <!-- WITNESS TRIO BLOCK -->
+  <div class="witness-trio">
+
+    <!-- Attribution Caption (FR-2) -->
+    <p class="attribution-caption">
+      Photographed by Howard Hertzog, San Francisco Bay, c. 1944–1946
+    </p>
+
+    <!-- Dossier Card (FR-3) -->
+    <div class="dossier-card" role="region" aria-label="Ship dossier">
+      <div class="dossier-field">
+        <span class="dossier-field-label">Vessel Class</span>
+        <span class="dossier-field-value">Essex-class aircraft carrier</span>
+      </div>
+      <div class="dossier-field">
+        <span class="dossier-field-label">Commissioned</span>
+        <span class="dossier-field-value">3 November 1946</span>
+      </div>
+      <div class="dossier-field">
+        <span class="dossier-field-label">Fate</span>
+        <span class="dossier-field-value">Decommissioned 15 January 1970</span>
+      </div>
+    </div>
+
+    <!-- Narrative Section (FR-4, FR-5) -->
+    <section class="narrative-section" aria-labelledby="narrative-heading">
+      <div class="narrative-heading" id="narrative-heading">Where was it going</div>
+      <div class="narrative-body">
+        <p>When Howard Hertzog photographed USS Valley Forge from San Francisco Bay, she was a new ship — commissioned just months earlier into a Navy already reshaping itself for a world without the war it had been built to fight. The carrier's early life would be shaped not by the conflict she was built for, but by the one that would come after it.</p>
+        <p>Valley Forge departed for the Western Pacific as the world held its breath in the summer of 1950. When North Korean forces crossed the 38th parallel on June 25th, she was among the first U.S. Navy vessels to respond. On July 3rd, her aircraft flew the first carrier-based strikes of the Korean War against Pyongyang — making her a vessel whose story begins in one war's shadow and finds its defining moment in another's opening hours.</p>
+        <p>Howard's photograph captures her before any of that was known. She was a ship at the edge of what came next, passing through a bay full of ships doing the same thing, seen by a man who was simply there.</p>
+      </div>
+      <p class="historical-caveat">
+        Historical details sourced from Naval History and Heritage Command, Dictionary of American Naval Fighting Ships. Dates and facts not independently verified; accuracy not guaranteed.
+      </p>
+    </section>
+
+  </div><!-- /witness-trio -->
+</article>
+
+<!-- SHIP NAV -->
+<nav class="ship-nav" aria-label="Ship navigation">
+  <div class="ship-nav-inner">
+    <a class="ship-nav-link" href="#/ships/uss-vicksburg">← USS Vicksburg</a>
+    <a class="ship-nav-link back" href="#/">↑ Back to fleet</a>
+    <a class="ship-nav-link" href="#/ships/uss-theodore-e-chandler">USS Theodore E. Chandler →</a>
+  </div>
+</nav>
+
+</body>
+</html>
