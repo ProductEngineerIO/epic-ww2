@@ -26,7 +26,7 @@ so that no navigation slot or URL leaves me stranded with a blank stub or a brow
 
 6. Navigating to any unknown route (e.g., `/#/foo`) redirects to `/#/not-found` via the Angular router wildcard (`'**'` → `redirectTo: 'not-found'`, already configured in Story 1.2) and `NotFoundComponent` renders
 7. `NotFoundComponent` uses the same full-page dark-surface visual treatment as `AboutComponent`
-8. Heading reads `"Page not found."` — rendered as `<h2>` (not `<h1>`); color `var(--color-khaki)`; Roboto Slab font
+8. Heading reads `"Page not found."` — rendered as `<h1>`; color `var(--color-khaki)`; Roboto Slab font
 9. A `"← Back to fleet"` link navigates to `/#/` via Angular `[routerLink]="['/']"` — never a bare `<a href>`; link is styled with `var(--color-olive)` and meets the 44×44px minimum tap target
 10. `PersistentNav` is intact on the not-found page; neither "Fleet" nor "About Howard" is marked active (no route match)
 
@@ -111,19 +111,13 @@ export class ComingSoonComponent {
 ```html
 <!-- coming-soon.component.html -->
 <div class="coming-soon">
-  <ng-content select="[slot=heading]">
-    <h1 class="coming-soon__heading">{{ heading }}</h1>
-  </ng-content>
+  <h1 class="coming-soon__heading">{{ heading }}</h1>
   <p class="coming-soon__body">{{ body }}</p>
   <ng-content select="[slot=actions]"></ng-content>
 </div>
 ```
 
-**Note:** `ng-content` with named slots allows `NotFoundComponent` to project a custom `<h2>` heading and a "Back to fleet" link action without `ComingSoonComponent` needing special logic for the heading level distinction. If `ng-content` proves awkward in Angular 22, use separate `@Input() headingLevel: 'h1' | 'h2' = 'h1'` and `@if` blocks instead — the simpler approach wins.
-
-### Alternative: Simpler Flat Approach (if ng-content is overkill)
-
-If named slots feel over-engineered for two pages, each component can have its own template and SCSS while sharing only the SCSS utility class names — no `ComingSoonComponent` required. The SCSS would live in a shared partial. Only use this if the `ng-content` approach causes unexpected complexity.
+**Note:** `<ng-content select="[slot=actions]">` is used only by `NotFoundComponent` to project the "Back to fleet" link. Angular does not support fallback content inside `<ng-content>` tags — the heading is therefore always rendered from the `{{ heading }}` input binding, never via ng-content projection.
 
 ### Complete ComingSoonComponent SCSS
 
@@ -198,20 +192,13 @@ import { ComingSoonComponent } from '../../shared/components/coming-soon/coming-
   standalone: true,
   imports: [ComingSoonComponent, RouterLink],
   template: `
-    <app-coming-soon body="">
-      <h2 slot="heading" class="not-found__heading">Page not found.</h2>
+    <app-coming-soon
+      heading="Page not found."
+      body="">
       <a slot="actions" [routerLink]="['/']" class="not-found__back">← Back to fleet</a>
     </app-coming-soon>
   `,
   styles: [`
-    .not-found__heading {
-      font-family: var(--font-display);
-      font-size: var(--font-hl-lg-size);
-      font-weight: var(--font-hl-lg-weight);
-      line-height: var(--font-hl-lg-lh);
-      color: var(--color-khaki);
-      margin: 0 0 1.5rem;
-    }
     .not-found__back {
       display: inline-flex;
       align-items: center;
@@ -240,7 +227,7 @@ import { ComingSoonComponent } from '../../shared/components/coming-soon/coming-
 export class NotFoundComponent {}
 ```
 
-**Note:** If the `ng-content` named-slot approach proves problematic in Angular 22, use the simpler flat pattern instead: `NotFoundComponent` has its own full template (no `ComingSoonComponent` import), repeating only the SCSS layout. Prefer working code over elegant abstraction.
+**Note:** The heading is passed via `heading` input to `ComingSoonComponent`, which always renders it as `<h1>`. The `<a slot="actions">` projection is the only ng-content usage — it is always provided by `NotFoundComponent`, so there is no fallback concern.
 
 ### Project Structure After This Story
 
