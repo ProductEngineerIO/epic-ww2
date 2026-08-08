@@ -1,20 +1,40 @@
 // src/app/features/not-found/not-found.component.ts
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ComingSoonComponent } from '../../shared/components/coming-soon/coming-soon.component';
 
 @Component({
   selector: 'app-not-found',
   standalone: true,
-  imports: [ComingSoonComponent, RouterLink],
+  imports: [RouterLink],
   template: `
-    <app-coming-soon
-      heading="Page not found."
-      body="">
-      <a slot="actions" [routerLink]="['/']" class="not-found__back">← Back to fleet</a>
-    </app-coming-soon>
+    <div class="not-found">
+      <h2 class="not-found__heading">Page not found.</h2>
+      <a [routerLink]="['/']" class="not-found__back">← Back to fleet</a>
+    </div>
   `,
   styles: [`
+    :host {
+      display: block;
+      min-height: calc(100vh - 56px);
+      background-color: var(--color-bg);
+    }
+    .not-found {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: inherit;
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+    .not-found__heading {
+      font-family: var(--font-display);
+      font-size: var(--font-hl-lg-size);
+      font-weight: var(--font-hl-lg-weight);
+      line-height: var(--font-hl-lg-lh);
+      color: var(--color-khaki);
+      margin: 0 0 1.5rem;
+    }
     .not-found__back {
       display: inline-flex;
       align-items: center;
