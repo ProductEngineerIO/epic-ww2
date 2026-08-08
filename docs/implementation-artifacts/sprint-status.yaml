@@ -94,7 +94,7 @@ development_status:
 
   # ── Epic 7: Responsive Design & Accessibility ────────────────────────────────
   epic-7: in-progress
-  7-1-responsive-layouts: ready-for-dev
+  7-1-responsive-layouts: done
   7-2-implement-accessibility-floor: ready-for-dev
   epic-7-retrospective: optional
 
