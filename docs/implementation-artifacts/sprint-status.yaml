@@ -109,6 +109,6 @@ development_status:
   # ── Epic 9: Build, Smoke Test & Deployment ───────────────────────────────────
   epic-9: in-progress
   9-1-configure-ng-build-production: done
-  9-2-pre-deployment-smoke-test: ready-for-dev
+  9-2-pre-deployment-smoke-test: done
   9-3-ftp-deploy-to-bluehost-and-verify-live-site: ready-for-dev
   epic-9-retrospective: optional
