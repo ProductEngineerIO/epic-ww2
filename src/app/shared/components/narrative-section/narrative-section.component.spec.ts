@@ -48,14 +48,14 @@ describe('NarrativeSectionComponent', () => {
   it('caveats returns fallback text when sources is empty', () => {
     component.ship = { ...baseShip, sources: [] };
     expect(component.caveats).toBe(
-      'Historical details sourced from historical sources. Accuracy not guaranteed.'
+      'Historical details sourced from historical records. Accuracy not guaranteed.'
     );
   });
 
   it('caveats returns fallback text when sources[0] is [Source pending]', () => {
     component.ship = { ...baseShip, sources: ['[Source pending]'] };
     expect(component.caveats).toBe(
-      'Historical details sourced from historical sources. Accuracy not guaranteed.'
+      'Historical details sourced from historical records. Accuracy not guaranteed.'
     );
   });
 

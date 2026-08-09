@@ -19,7 +19,7 @@ export class NarrativeSectionComponent {
   get caveats(): string {
     const source = this.ship.sources?.[0];
     if (!source || source === '[Source pending]') {
-      return 'Historical details sourced from historical sources. Accuracy not guaranteed.';
+      return 'Historical details sourced from historical records. Accuracy not guaranteed.';
     }
     return `Historical details sourced from ${source}. Accuracy not guaranteed.`;
   }
