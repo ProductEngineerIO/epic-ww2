@@ -100,7 +100,7 @@ development_status:
 
   # ── Epic 8: Ship Content Research & Data Population ─────────────────────────
   epic-8: in-progress
-  8-1-ship-content-ships-1-7: ready-for-dev
+  8-1-ship-content-ships-1-7: done
   8-2-research-and-populate-data-for-ships-8-14: ready-for-dev
   8-3-ship-content-research-ships-15-21: ready-for-dev
   8-4-finalize-historical-caveat-wording: ready-for-dev
