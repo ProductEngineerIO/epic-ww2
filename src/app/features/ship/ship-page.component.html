@@ -1,10 +1,8 @@
 @if (ship) {
-  <main>
-    <article class="ship-page">
-      <h1 class="ship-page__title">{{ ship.name }}</h1>
-      <app-ship-hero [ship]="ship" />
-      <app-witness-trio-block [ship]="ship" />
-      <app-ship-nav [currentSlug]="slug" />
-    </article>
-  </main>
+  <article class="ship-page">
+    <h1 class="ship-page__title">{{ ship.name }}</h1>
+    <app-ship-hero [ship]="ship" />
+    <app-witness-trio-block [ship]="ship" />
+    <app-ship-nav [currentSlug]="slug" />
+  </article>
 }

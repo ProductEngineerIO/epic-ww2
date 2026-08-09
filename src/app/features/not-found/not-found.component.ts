@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
   imports: [RouterLink],
   template: `
     <div class="not-found">
-      <h2 class="not-found__heading">Page not found.</h2>
+      <h1 class="not-found__heading">Page not found.</h1>
       <a [routerLink]="['/']" class="not-found__back">← Back to fleet</a>
     </div>
   `,

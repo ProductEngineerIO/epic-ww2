@@ -41,6 +41,11 @@
     filter: blur(0);
     transform: scale(1);
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    filter: none;
+    transform: none;
+  }
 }
 
 .ship-hero__name {

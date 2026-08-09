@@ -12,7 +12,7 @@
       <source type="image/webp"
               [srcset]="'assets/images/hero/' + ship.slug + '.webp'">
       <img [src]="'assets/images/hero/' + ship.slug + '.jpg'"
-           [alt]="ship.altText"
+           [alt]="computedAltText"
            loading="eager"
            class="ship-hero__img"
            [class.is-loaded]="imageLoaded"
