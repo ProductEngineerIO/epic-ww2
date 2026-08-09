@@ -59,6 +59,34 @@ describe('ShipHeroComponent', () => {
     });
   });
 
+  describe('computedAltText', () => {
+    it('should return ship.altText when it is a real value', () => {
+      component.ship = { ...STUB_SHIP, altText: 'Real alt text' };
+      expect(component.computedAltText).toBe('Real alt text');
+    });
+
+    it('should return computed fallback when altText is the placeholder', () => {
+      component.ship = { ...STUB_SHIP, name: 'USS Valley Forge', altText: '[Alt text pending]' };
+      expect(component.computedAltText).toBe(
+        'USS Valley Forge, photographed by Howard Hertzog, San Francisco Bay, c. 1944\u20131946'
+      );
+    });
+
+    it('should return computed fallback when altText is empty string', () => {
+      component.ship = { ...STUB_SHIP, name: 'USS Valley Forge', altText: '' };
+      expect(component.computedAltText).toBe(
+        'USS Valley Forge, photographed by Howard Hertzog, San Francisco Bay, c. 1944\u20131946'
+      );
+    });
+
+    it('should return computed fallback when altText is whitespace-only', () => {
+      component.ship = { ...STUB_SHIP, name: 'USS Valley Forge', altText: '   ' };
+      expect(component.computedAltText).toBe(
+        'USS Valley Forge, photographed by Howard Hertzog, San Francisco Bay, c. 1944\u20131946'
+      );
+    });
+  });
+
   describe('default template (no error)', () => {
     it('should render a <picture> element when imageError is false', () => {
       expect(component.imageError).toBe(false);

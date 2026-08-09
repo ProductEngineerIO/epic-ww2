@@ -53,6 +53,21 @@ a {
   outline-offset: 3px;
 }
 
+// ── Reduced Motion Global Catch-All (UX-DR16, AC 7.2-5) ─────────────────────
+// Disable all transitions and animations site-wide when user prefers reduced motion.
+// Per-component rules (ShipHero, HomepageHero, ShipNav, FleetGrid) are authoritative;
+// this rule is the safety net for any component that forgets to handle it.
+// Note: `transform` is intentionally omitted here — a global `transform: none !important`
+// would break CSS layout transforms. Per-component rules handle transform resets explicitly.
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
 // ── Image Reset ───────────────────────────────────────────────────────────────
 img {
   display: block;
