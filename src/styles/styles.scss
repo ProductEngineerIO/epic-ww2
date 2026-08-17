@@ -1,1 +1,62 @@
-/* You can add global styles to this file, and also import other style files */
+// src/styles/styles.scss
+// Global stylesheet — single entry point compiled by Angular.
+// Imports the token system, provides a minimal CSS reset, and applies
+// site-wide base styles. Components must never reference raw hex values.
+
+@use 'tokens'; // imports _tokens.scss; CSS custom properties are globally available via :root
+
+// ── CSS Reset ──────────────────────────────────────────────────────────────────
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+// ── Global Body ────────────────────────────────────────────────────────────────
+body {
+  background-color: var(--color-bg);
+  color: var(--color-on-surface);
+  font-family: var(--font-display);
+  font-size: var(--font-body-md-size);
+  line-height: var(--font-body-md-lh);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ── Grain/Texture Overlay (FR-18, UX-DR3) ─────────────────────────────────────
+// Evokes the materiality of the archive — photographic grain on dark surfaces.
+// Fixed pseudo-element sits above all content (pointer-events: none ensures it
+// never interferes with interaction). Opacity 0.035 is barely perceptible —
+// just enough to break the flat digital surface without distracting the user.
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+// ── Global Anchor Reset ────────────────────────────────────────────────────────
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+// ── Focus Ring (UX-DR15) ───────────────────────────────────────────────────────
+// Never suppress focus without a custom replacement.
+:focus-visible {
+  outline: 2px solid var(--color-olive);
+  outline-offset: 3px;
+}
+
+// ── Images ─────────────────────────────────────────────────────────────────────
+img {
+  display: block;
+  max-width: 100%;
+}

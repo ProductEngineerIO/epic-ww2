@@ -1,0 +1,185 @@
+// src/styles/_tokens.scss
+// Design token system — single source of truth for all color, typography, and spacing values.
+// All values are defined as CSS custom properties on :root so they are globally available.
+// Components reference values via var(--*) — never raw hex codes or magic numbers.
+
+:root {
+
+  // ── Colors: Surfaces ─────────────────────────────────────
+  --color-bg:             #16160e;  // page background (olive-undertone near-black)
+  --color-surface:        #23231a;  // card/nav surface
+  --color-surface-raised: #2e2e22;  // elevated surface (DossierCard bg)
+  --color-surface-cont:   #38382c;  // container surface
+
+  // ── Colors: Text ─────────────────────────────────────────
+  --color-on-surface:     #ede9df;  // primary body text
+  --color-khaki:          #c9b87a;  // headings, ship names (on-surface-variant)
+  --color-steel:          #8a9aaa;  // secondary text, metadata
+  --color-steel-muted:    #5a6870;  // muted / placeholder text
+
+  // ── Colors: Accent ───────────────────────────────────────
+  --color-olive:          #7a8c44;  // primary accent — nav active, borders, hover
+  --color-olive-dim:      #4a5228;  // dimmed olive for subtle accents
+
+  // ── Colors: Borders ──────────────────────────────────────
+  --color-outline:        #4a5a6a;  // dividers, borders
+  --color-outline-v:      #3d3d2e;  // subtle variant borders
+
+  // ── Colors: Overlays ─────────────────────────────────────
+  --color-overlay:        rgba(22, 22, 14, 0.82); // hero gradient overlay
+
+  // ── Colors: Semantic ─────────────────────────────────────
+  --color-error:          #c0392b;
+  --color-on-primary:     #16160e;  // text on olive primary background
+
+  // ── Typography: Font Families ────────────────────────────
+  --font-display:   'Roboto Slab', Georgia, serif;
+  --font-narrative: 'Lora', Georgia, serif;
+
+  // ── Typography: display-hero (ship name on ShipHero, homepage hero) ──
+  --font-display-hero-size:   clamp(2rem, 6vw, 3.5rem);
+  --font-display-hero-weight: 700;
+  --font-display-hero-lh:     1.05;
+  --font-display-hero-ls:     -0.01em;
+
+  // ── Typography: headline-lg (section headings) ────────────
+  --font-hl-lg-size:   1.625rem;
+  --font-hl-lg-weight: 600;
+  --font-hl-lg-lh:     1.2;
+
+  // ── Typography: headline-md ───────────────────────────────
+  --font-hl-md-size:   1.25rem;
+  --font-hl-md-weight: 600;
+  --font-hl-md-lh:     1.3;
+
+  // ── Typography: headline-sm (ShipNav prev/next, FleetGrid ship names) ──
+  --font-hl-sm-size:   1rem;
+  --font-hl-sm-weight: 600;
+  --font-hl-sm-lh:     1.4;
+  --font-hl-sm-ls:     0.02em;
+
+  // ── Typography: body-lg (NarrativeSection prose — Lora) ──
+  --font-body-lg-size:   1.1rem;
+  --font-body-lg-weight: 400;
+  --font-body-lg-lh:     1.8;
+
+  // ── Typography: body-md (general body text) ───────────────
+  --font-body-md-size:   1rem;
+  --font-body-md-weight: 400;
+  --font-body-md-lh:     1.7;
+
+  // ── Typography: label-caps (DossierCard field labels) ─────
+  --font-label-caps-size:   0.7rem;
+  --font-label-caps-weight: 400;
+  --font-label-caps-lh:     1.4;
+  --font-label-caps-ls:     0.12em;
+
+  // ── Typography: label-value (DossierCard field values) ────
+  --font-label-value-size:   0.9rem;
+  --font-label-value-weight: 600;
+  --font-label-value-lh:     1.3;
+
+  // ── Typography: caption (AttributionCaption, historical caveat) ──
+  --font-caption-size:   0.8rem;
+  --font-caption-weight: 400;
+  --font-caption-lh:     1.5;
+  --font-caption-style:  italic;
+
+  // ── Typography: nav-link (PersistentNav links) ────────────
+  --font-nav-link-size:   0.875rem;
+  --font-nav-link-weight: 400;
+
+  // ── Spacing ───────────────────────────────────────────────
+  --space-unit:              8px;
+  --space-gutter:            24px;
+  --space-gutter-mobile:     16px;
+  --space-content-max:       880px;
+  --space-content-narrow:    660px;
+  --space-hero-height:       clamp(400px, 68vh, 680px);
+  --space-section-gap:       4rem;
+  --space-section-gap-mobile: 2.5rem;
+  --space-border-radius-sm:  2px;
+
+  // ── Shapes ────────────────────────────────────────────────
+  // Hard corners throughout — the 2px radius on DossierCard is the sole exception.
+  --border-radius:    0;
+  --border-radius-sm: 2px; // DossierCard only
+}
+
+// ── Typography Utility Classes ────────────────────────────────────────────────
+// Components apply these classes rather than manually assembling individual
+// custom properties. Each class bundles the complete type scale in one place.
+
+.type-display-hero {
+  font-family:    var(--font-display);
+  font-size:      var(--font-display-hero-size);
+  font-weight:    var(--font-display-hero-weight);
+  line-height:    var(--font-display-hero-lh);
+  letter-spacing: var(--font-display-hero-ls);
+}
+
+.type-headline-lg {
+  font-family: var(--font-display);
+  font-size:   var(--font-hl-lg-size);
+  font-weight: var(--font-hl-lg-weight);
+  line-height: var(--font-hl-lg-lh);
+}
+
+.type-headline-md {
+  font-family: var(--font-display);
+  font-size:   var(--font-hl-md-size);
+  font-weight: var(--font-hl-md-weight);
+  line-height: var(--font-hl-md-lh);
+}
+
+.type-headline-sm {
+  font-family:    var(--font-display);
+  font-size:      var(--font-hl-sm-size);
+  font-weight:    var(--font-hl-sm-weight);
+  line-height:    var(--font-hl-sm-lh);
+  letter-spacing: var(--font-hl-sm-ls);
+}
+
+.type-body-lg {
+  font-family: var(--font-narrative);
+  font-size:   var(--font-body-lg-size);
+  font-weight: var(--font-body-lg-weight);
+  line-height: var(--font-body-lg-lh);
+}
+
+.type-body-md {
+  font-family: var(--font-display);
+  font-size:   var(--font-body-md-size);
+  font-weight: var(--font-body-md-weight);
+  line-height: var(--font-body-md-lh);
+}
+
+.type-label-caps {
+  font-family:    var(--font-display);
+  font-size:      var(--font-label-caps-size);
+  font-weight:    var(--font-label-caps-weight);
+  line-height:    var(--font-label-caps-lh);
+  letter-spacing: var(--font-label-caps-ls);
+  text-transform: uppercase;
+}
+
+.type-label-value {
+  font-family: var(--font-display);
+  font-size:   var(--font-label-value-size);
+  font-weight: var(--font-label-value-weight);
+  line-height: var(--font-label-value-lh);
+}
+
+.type-caption {
+  font-family:  var(--font-narrative);
+  font-size:    var(--font-caption-size);
+  font-weight:  var(--font-caption-weight);
+  line-height:  var(--font-caption-lh);
+  font-style:   var(--font-caption-style);
+}
+
+.type-nav-link {
+  font-family: var(--font-display);
+  font-size:   var(--font-nav-link-size);
+  font-weight: var(--font-nav-link-weight);
+}
