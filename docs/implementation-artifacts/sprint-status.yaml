@@ -70,7 +70,7 @@ development_status:
 
   # ── Epic 4: Ship Page Components ─────────────────────────────────────────────
   epic-4: ready-for-dev
-  4-1-ship-hero: ready-for-dev
+  4-1-ship-hero: done
   4-2-attribution-caption: ready-for-dev
   4-3-dossier-card: ready-for-dev
   4-4-narrative-section: ready-for-dev
