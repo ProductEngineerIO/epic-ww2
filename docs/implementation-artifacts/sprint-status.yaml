@@ -88,7 +88,7 @@ development_status:
 
   # ── Epic 6: Supporting Pages ─────────────────────────────────────────────────
   epic-6: ready-for-dev
-  6-1-supporting-placeholder-pages: ready-for-dev
+  6-1-supporting-placeholder-pages: done
   6-2-not-found-component: ready-for-dev
   epic-6-retrospective: optional
 
