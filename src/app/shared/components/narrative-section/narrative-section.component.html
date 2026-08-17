@@ -1,0 +1,14 @@
+<!-- narrative-section.component.html -->
+<section class="narrative" aria-labelledby="narrative-heading">
+  <h2 id="narrative-heading" class="narrative__heading">Where was it going</h2>
+
+  @if (isPending) {
+    <p class="narrative__pending">Content pending</p>
+  } @else {
+    @for (paragraph of ship.narrative; track $index) {
+      <p class="narrative__para">{{ paragraph }}</p>
+    }
+  }
+
+  <p class="narrative__caveat">{{ caveats }}</p>
+</section>

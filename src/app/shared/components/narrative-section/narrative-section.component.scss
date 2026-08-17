@@ -1,0 +1,53 @@
+// narrative-section.component.scss
+:host {
+  display: block;
+}
+
+.narrative {
+  max-width: var(--space-content-narrow);
+  margin-inline: auto;
+  padding: 0 var(--space-gutter);
+
+  @media (max-width: 767px) {
+    padding: 0 var(--space-gutter-mobile);
+  }
+}
+
+.narrative__heading {
+  font-family: var(--font-display);
+  font-size: var(--font-hl-md-size);
+  font-weight: var(--font-hl-md-weight);
+  line-height: var(--font-hl-md-lh);
+  color: var(--color-khaki);
+  margin-bottom: 1.5rem;
+}
+
+.narrative__para {
+  font-family: var(--font-narrative);
+  font-size: var(--font-body-lg-size);
+  font-weight: var(--font-body-lg-weight);
+  line-height: var(--font-body-lg-lh);
+  color: var(--color-on-surface);
+  margin-bottom: 1.25rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.narrative__pending {
+  font-family: var(--font-display);
+  font-size: var(--font-body-md-size);
+  color: var(--color-steel-muted);
+  font-style: italic;
+  margin-bottom: 1.25rem;
+}
+
+.narrative__caveat {
+  margin-top: 1.5rem;
+  font-family: var(--font-display);
+  font-size: var(--font-caption-size);
+  font-style: var(--font-caption-style);
+  line-height: var(--font-caption-lh);
+  color: var(--color-steel-muted);
+}
