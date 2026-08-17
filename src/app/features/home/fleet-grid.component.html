@@ -1,0 +1,17 @@
+<section class="fleet-grid" aria-label="Fleet — 21 ships">
+  @for (ship of ships; track ship.slug) {
+    <a [routerLink]="['/ships', ship.slug]" class="fleet-grid__link">
+      <figure class="fleet-grid__figure">
+        <picture>
+          <source type="image/webp"
+                  [srcset]="'assets/images/thumb/' + ship.slug + '.webp'">
+          <img [src]="'assets/images/thumb/' + ship.slug + '.jpg'"
+               [alt]="ship.name + ' — thumbnail'"
+               loading="lazy"
+               class="fleet-grid__img">
+        </picture>
+        <figcaption class="fleet-grid__name type-hl-sm">{{ ship.name }}</figcaption>
+      </figure>
+    </a>
+  }
+</section>
