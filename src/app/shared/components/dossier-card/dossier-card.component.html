@@ -1,0 +1,21 @@
+<!-- dossier-card.component.html -->
+<div class="dossier-card">
+  <div class="dossier__field">
+    <span class="dossier__label">Vessel Class</span>
+    <span class="dossier__value" [class.dossier__value--unknown]="isUnknown(vesselClassDisplay)">
+      {{ vesselClassDisplay }}
+    </span>
+  </div>
+  <div class="dossier__field">
+    <span class="dossier__label">Commissioned</span>
+    <span class="dossier__value" [class.dossier__value--unknown]="isUnknown(commissionedDisplay)">
+      {{ commissionedDisplay }}
+    </span>
+  </div>
+  <div class="dossier__field">
+    <span class="dossier__label">Fate</span>
+    <span class="dossier__value" [class.dossier__value--unknown]="isUnknown(fateDisplay)">
+      {{ fateDisplay }}
+    </span>
+  </div>
+</div>
