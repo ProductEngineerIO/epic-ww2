@@ -59,7 +59,7 @@ development_status:
 
   # ── Epic 2: Image Pipeline & Asset Management ────────────────────────────────
   epic-2: ready-for-dev
-  2-1-image-optimization-pipeline: ready-for-dev
+  2-1-image-optimization-pipeline: done
   epic-2-retrospective: optional
 
   # ── Epic 3: Application Shell ────────────────────────────────────────────────
