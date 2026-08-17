@@ -1,0 +1,18 @@
+// witness-trio-block.component.scss
+
+:host {
+  display: block;
+}
+
+.trio {
+  max-width: var(--space-content-max);
+  margin-inline: auto;
+  padding: var(--space-section-gap) var(--space-gutter);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; // DESIGN.md specifies gap-between-elements: '2rem'; no token in _tokens.scss — intentional raw value
+
+  @media (max-width: 767px) {
+    padding: var(--space-section-gap-mobile) var(--space-gutter-mobile);
+  }
+}
