@@ -1,0 +1,91 @@
+// src/app/shared/components/ship-hero/ship-hero.component.scss
+
+:host {
+  display: block;
+}
+
+.ship-hero {
+  position: relative;
+  width: 100%;
+  height: var(--space-hero-height);
+  overflow: hidden;
+  margin: 0;
+  background-color: var(--color-surface);
+
+  // Gradient overlay covering the bottom of the image
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, var(--color-overlay) 100%);
+    pointer-events: none;
+  }
+}
+
+.ship-hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+  // Blur-up: start blurred and slightly scaled to prevent edge bleed
+  filter: blur(8px);
+  transform: scale(1.05);
+  transition: none; // disabled by default; enabled only when motion is allowed
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: filter 400ms ease, transform 400ms ease;
+  }
+
+  &.is-loaded {
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+.ship-hero__name {
+  position: absolute;
+  bottom: 1.5rem;
+  left: var(--space-gutter);
+  z-index: 1; // above ::after gradient overlay
+  font-family: var(--font-display);
+  font-size: var(--font-display-hero-size);
+  font-weight: var(--font-display-hero-weight);
+  line-height: var(--font-display-hero-lh);
+  letter-spacing: var(--font-display-hero-ls);
+  color: var(--color-khaki);
+}
+
+// Error state
+.ship-hero--error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface);
+
+  // No gradient overlay on error
+  &::after {
+    display: none;
+  }
+
+  .ship-hero__name {
+    bottom: 1.5rem;
+  }
+}
+
+.ship-hero__error-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.ship-hero__error-text {
+  font-family: var(--font-display);
+  font-size: var(--font-label-caps-size);
+  font-weight: var(--font-label-caps-weight);
+  letter-spacing: var(--font-label-caps-ls);
+  text-transform: uppercase;
+  color: var(--color-steel-muted);
+}
