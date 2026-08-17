@@ -13,7 +13,7 @@ so that my first experience is the full visual impact of Howard's photograph bef
 1. `ShipHeroComponent` is a standalone component at `src/app/shared/components/ship-hero/ship-hero.component.ts` that accepts a `@Input() ship!: Ship` input
 2. The template renders `<figure>` → `<picture>` (with WebP source + JPEG img fallback) → `<figcaption>` with the ship name; the `<img>` uses `loading="eager"`, `[alt]="ship.altText"`, and the `ship.slug` to derive the asset path
 3. The image is full viewport width (`width: 100%`), height `clamp(400px, 68vh, 680px)` (`var(--space-hero-height)`), `object-fit: cover`; a gradient overlay `linear-gradient(to bottom, transparent 40%, var(--color-overlay) 100%)` covers the bottom of the image; the ship name in the figcaption is positioned bottom-left over the overlay in `display-hero` typography and `var(--color-khaki)`
-4. Blur-up loading: a low-quality placeholder (`filter: blur(8px)`, scaled up to fill) is shown while the full image loads; on the `load` event, a `transition: filter 400ms ease` reveals the sharp image; under `@media (prefers-reduced-motion: reduce)` the transition does not fire — the image appears immediately
+4. Blur-up loading: `filter: blur(8px)` and `transform: scale(1.05)` are applied to the hero `<img>` from initial paint; when the `load` event fires, both are removed via `transition: filter 400ms ease, transform 400ms ease`, revealing the sharp image at natural scale; under `@media (prefers-reduced-motion: reduce)` no transition occurs — the image appears immediately sharp
 5. On image error: the figure shows a dark surface fill at `var(--space-hero-height)` height with the text "Image unavailable" in `label-caps` styling; the error state never blocks rendering of the `WitnessTrioBlock` below it
 6. No raw hex color values appear in the component SCSS — only `var(--color-*)` and `var(--space-*)` references
 
@@ -38,12 +38,29 @@ so that my first experience is the full visual impact of Howard's photograph bef
   - [ ] Use `@if (imageError)` / `@else` blocks (Angular 17+ control flow syntax)
 - [ ] SCSS implementation with tokens only (AC: 6)
   - [ ] All colors via `var(--color-*)`, hero height via `var(--space-hero-height)`
+- [ ] Write unit tests (AC: 1–5)
+  - [ ] Configure `TestBed` with the standalone `ShipHeroComponent`; use `NO_ERRORS_SCHEMA` and a stub `Ship` input: `{ slug: 'test-ship', name: 'Test Ship', altText: 'Test alt', vesselClass: '', commissioned: '', fate: '', narrative: [], sources: [] }`
+  - [ ] Assert `imageLoaded` is `false` on init; calling `onImageLoad()` sets it to `true`
+  - [ ] Assert `imageError` is `false` on init; calling `onImageError()` sets it to `true`
+  - [ ] Assert default template contains a `<picture>` element when `imageError` is false
+  - [ ] Assert error template contains `.ship-hero--error` and the text "Image unavailable" when `imageError` is true
 
 ## Dev Notes
 
 ### Dependency Chain
 
 Requires **Story 1.1** (scaffold), **Story 1.3** (design tokens), **Story 1.4** (Ship model). Image assets must exist in `src/assets/images/hero/` from **Story 2.1** for visual verification, but the component compiles without them.
+
+### Blur-Up Implementation: CSS-Only Approach
+
+The epic spec language says "10px wide placeholder image" but the image pipeline (Story 2.1) produces `thumb/` at 600w — no 10px asset exists. This story intentionally implements blur-up as a **CSS-only effect on the single `<img>` element**:
+
+- `filter: blur(8px)` is applied from the moment the element renders
+- `transform: scale(1.05)` prevents blurred-pixel edge bleed at the container boundary; on `load` it is removed alongside the filter, producing a subtle sharpen-and-settle effect
+- When the browser fires the `load` event, both properties are removed with a `400ms ease` transition, revealing the sharp hero image
+- This requires no additional asset and delivers the intended progressive-reveal experience
+
+Do NOT attempt to load a separate 10px placeholder — no such asset is produced by the pipeline.
 
 ### DESIGN.md Component Spec
 
@@ -222,6 +239,10 @@ export class ShipHeroComponent {
   color: var(--color-steel-muted);
 }
 ```
+
+### Token Utility Classes vs. Individual Properties
+
+`_tokens.scss` defines a `.type-display-hero` utility class that composes all display-hero properties. The SCSS for `.ship-hero__name` intentionally uses **individual `var(--font-display-hero-*)` references** rather than that class to keep all BEM styles within the component's SCSS file and avoid mixing utility classes into component HTML. Do not replace these with `@apply` or add `.type-display-hero` to the figcaption element.
 
 ### Project Structure Notes
 

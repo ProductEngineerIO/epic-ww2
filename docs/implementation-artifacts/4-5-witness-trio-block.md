@@ -13,7 +13,7 @@ so that FR-6 (Witness Document Trio integrity) is enforced structurally — no s
 1. `WitnessTrioBlockComponent` is a standalone component at `src/app/shared/components/witness-trio-block/witness-trio-block.component.ts` accepting `@Input() ship!: Ship`
 2. The template renders `AttributionCaptionComponent`, `DossierCardComponent`, and `NarrativeSectionComponent` — all three, unconditionally, in that order (Attribution → Dossier → Narrative)
 3. `DossierCardComponent`, `AttributionCaptionComponent`, and `NarrativeSectionComponent` are never imported or used in any template other than `WitnessTrioBlockComponent` — verified by code search
-4. If `ship.narrative` is empty or `'[Content pending]'`, `WitnessTrioBlockComponent` renders a `<div class="trio__pending">` block for NarrativeSection's slot AND logs `console.warn('WitnessTrioBlock: narrative missing for', this.ship.slug)` — the other two components render normally
+4. `WitnessTrioBlockComponent` logs warnings in `ngOnInit` for missing data: if `ship.narrative` is empty or every entry equals `'[Content pending]'`, it logs `` console.warn(`WitnessTrioBlock: narrative missing for slug "${this.ship.slug}"`) ``; if `ship.fate` is falsy or equals `'[Content pending]'`, it logs `` console.warn(`WitnessTrioBlock: fate missing for slug "${this.ship.slug}"`) `` — all three child components always render unconditionally; each child handles its own pending/unknown display state
 5. The block has `max-width: var(--space-content-max)` (880px) centered, with `2rem` gap between the three child components
 
 ## Tasks / Subtasks
@@ -22,15 +22,24 @@ so that FR-6 (Witness Document Trio integrity) is enforced structurally — no s
   - [ ] `standalone: true`
   - [ ] Import `AttributionCaptionComponent`, `DossierCardComponent`, `NarrativeSectionComponent` in the `imports` array
   - [ ] `@Input() ship!: Ship`
-- [ ] Implement the content-pending check (AC: 4)
-  - [ ] `get narrativePending(): boolean` getter
-  - [ ] Log `console.warn` in `ngOnInit` or in the getter when `narrativePending` is true
-- [ ] Build the template (AC: 2, 4)
-  - [ ] Always render `<app-attribution-caption>`
+- [ ] Implement data-gap warning checks in `ngOnInit` (AC: 4)
+  - [ ] `get narrativePending(): boolean` getter — true if `ship.narrative` is empty or every entry equals `'[Content pending]'` (use `.every()`)
+  - [ ] Log `` console.warn(`WitnessTrioBlock: narrative missing for slug "${this.ship.slug}"`) `` in `ngOnInit` when `narrativePending` is true — **not in the getter** (getters fire on every change-detection cycle)
+  - [ ] Log `` console.warn(`WitnessTrioBlock: fate missing for slug "${this.ship.slug}"`) `` in `ngOnInit` when `ship.fate` is falsy or equals `'[Content pending]'`
+- [ ] Build the template (AC: 2)
+  - [ ] Always render `<app-attribution-caption>` (no `[ship]` input — `AttributionCaptionComponent` has no inputs; text is fixed per Story 4.2)
   - [ ] Always render `<app-dossier-card [ship]="ship">`
-  - [ ] Render `<app-narrative-section [ship]="ship">` — `NarrativeSectionComponent` already handles its own "Content pending" display (Story 4.4), so WitnessTrioBlock just passes the ship through and logs the warning
+  - [ ] Always render `<app-narrative-section [ship]="ship">` — `NarrativeSectionComponent` handles its own "Content pending" display (Story 4.4); WitnessTrioBlock's role is detection + logging only
 - [ ] SCSS: max-width, centered, gap between children (AC: 5)
 - [ ] Verify AD-5 compliance: no other template uses the three child component selectors (AC: 3)
+- [ ] Write unit tests for `witness-trio-block.component.spec.ts`
+  - [ ] `narrativePending` returns `true` for an empty `narrative` array
+  - [ ] `narrativePending` returns `true` when all entries equal `'[Content pending]'`
+  - [ ] `narrativePending` returns `false` when at least one entry is real content
+  - [ ] `ngOnInit` calls `console.warn` for narrative when `narrativePending` is true
+  - [ ] `ngOnInit` calls `console.warn` for fate when `ship.fate` equals `'[Content pending]'`
+  - [ ] `ngOnInit` does not call `console.warn` when both narrative and fate are populated
+  - [ ] Template always renders all three child component selectors regardless of data state
 
 ## Dev Notes
 
@@ -55,11 +64,13 @@ Must return no results.
 
 ### Rendering Order: Attribution First
 
+> ⚠️ **DOM Order: Attribution → Dossier → Narrative** — do not follow the order listed in `epics.md`; that document has a listing error. EXPERIENCE.md and DESIGN.md are authoritative.
+
 The DOM order inside WitnessTrioBlock is **AttributionCaption → DossierCard → NarrativeSection**. This places the attribution immediately below the ShipHero photograph (which is rendered by ShipPageComponent before WitnessTrioBlock), satisfying EXPERIENCE.md:
 
 > "Placed directly after `ShipHero` in DOM order for screen readers."
 
-The epics.md AC lists "DossierCard, AttributionCaption, and NarrativeSection" — this is a listing error in the epics doc; the correct UX-driven order is Attribution first. EXPERIENCE.md Key Flow and DESIGN.md WitnessTrioBlock spec both confirm: the attribution caption logically pairs with the photo above it before the reader encounters the dossier data.
+The attribution caption logically pairs with the photo above it before the reader encounters the dossier data.
 
 ### Content Pending Handling
 
@@ -84,7 +95,7 @@ export class WitnessTrioBlockComponent implements OnInit {
 
   get narrativePending(): boolean {
     return !this.ship.narrative?.length ||
-           this.ship.narrative[0] === '[Content pending]';
+           this.ship.narrative.every(p => p === '[Content pending]');
   }
 
   ngOnInit(): void {
@@ -109,7 +120,7 @@ export class WitnessTrioBlockComponent implements OnInit {
 </div>
 ```
 
-Note: no conditional rendering — all three always render. Child components handle their own pending/unknown display states.
+Container element is `<div>` (not `<section>`) — WitnessTrioBlock is a layout coordinator, not a landmark region. No conditional rendering — all three always render. Child components handle their own pending/unknown display states.
 
 ### SCSS
 
@@ -125,7 +136,7 @@ Note: no conditional rendering — all three always render. Child components han
   padding: var(--space-section-gap) var(--space-gutter);
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2rem; // DESIGN.md specifies gap-between-elements: '2rem'; no token in _tokens.scss — intentional raw value
 
   @media (max-width: 767px) {
     padding: var(--space-section-gap-mobile) var(--space-gutter-mobile);

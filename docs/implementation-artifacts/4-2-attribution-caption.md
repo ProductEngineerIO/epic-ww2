@@ -14,6 +14,7 @@ so that his authorship as photographer is always credited in the correct positio
 2. The component renders the exact text: "Photographed by Howard Hertzog, San Francisco Bay, c. 1944–1946"
 3. Typography uses `caption` style: Roboto Slab, 0.8rem, italic, `var(--color-steel)` (on-surface-secondary)
 4. No raw hex color values appear in the component SCSS
+5. The component renders unconditionally — no `*ngIf`, no optional binding, no conditional class that hides it; the element is always present in the DOM
 
 ## Tasks / Subtasks
 
@@ -21,10 +22,10 @@ so that his authorship as photographer is always credited in the correct positio
   - [ ] `standalone: true`, `imports: []`
   - [ ] No `@Input()` properties — text is fixed
 - [ ] Build the component template (AC: 2)
-  - [ ] Render the attribution text in a `<p>` or `<cite>` element
+  - [ ] Render the attribution text in a `<p>` element (see dev notes — `<figcaption>` and `<cite>` are not appropriate here)
 - [ ] Style with caption tokens (AC: 3, 4)
-  - [ ] `font-family: var(--font-display)`, `font-size: var(--font-caption-size)`, `font-style: var(--font-caption-style)`, `color: var(--color-steel)`
-  - [ ] `margin-top: 0.5rem; padding: 0 var(--space-gutter)`
+  - [ ] `font-family: var(--font-display)`, `font-size: var(--font-caption-size)`, `font-weight: var(--font-caption-weight)`, `font-style: var(--font-caption-style)`, `line-height: var(--font-caption-lh)`, `color: var(--color-steel)`
+  - [ ] `margin-top: 0.5rem; padding: 0 var(--space-gutter)` (desktop); `padding: 0 var(--space-gutter-mobile)` under `@media (max-width: 767px)`
 
 ## Dev Notes
 
@@ -48,6 +49,16 @@ This component is rendered **first** inside `WitnessTrioBlock` (before DossierCa
 
 Screen readers encountering the page will read: photo alt text → ship name figcaption → attribution caption → dossier → narrative. This is the intended reading order.
 
+### `<p>` vs `<figcaption>` Element Choice
+
+EXPERIENCE.md (line 118) and the epics accessibility spec describe a `<figure>` + `<figcaption>` semantic wrapping ShipHero + AttributionCaption. This does **not** mean the `AttributionCaptionComponent` itself should render a `<figcaption>`.
+
+- `ShipHero` owns its own `<figure>` with a `<figcaption>` for the ship name. A second `<figcaption>` cannot be a direct child of the same `<figure>` as a peer `<figcaption>` without violating HTML semantics.
+- `AttributionCaptionComponent` lives inside `WitnessTrioBlock`, which is a sibling of `ShipHero` in the DOM — outside any `<figure>` element. Rendering `<figcaption>` outside a `<figure>` is invalid HTML.
+- The outer `<figure>` + `<figcaption>` grouping described in the accessibility spec is assembled at the **`ShipPageComponent`** level (Story 4.7) by wrapping `<app-ship-hero>` and `<app-attribution-caption>` together. That is where the semantic relationship is established.
+
+Use `<p class="attribution">` here. Do **not** use `<figcaption>` or `<cite>` (`<cite>` is for titles of works, not persons).
+
 ### DESIGN.md Spec
 
 ```yaml
@@ -57,6 +68,8 @@ AttributionCaption:
   margin-top: '0.5rem'
   padding: '0 1rem'
 ```
+
+> **Padding note:** DESIGN.md specifies `padding: '0 1rem'` (= 0 16px). This story uses `var(--space-gutter)` (24px) on desktop and `var(--space-gutter-mobile)` (16px) on mobile instead. This aligns the component with the site-wide horizontal gutter system used by all other content blocks and avoids a one-off raw value. The desktop padding is intentionally wider than the literal DESIGN.md value.
 
 ### Complete Implementation
 
@@ -77,6 +90,7 @@ import { Component } from '@angular/core';
     .attribution {
       font-family: var(--font-display);
       font-size: var(--font-caption-size);
+      font-weight: var(--font-caption-weight);
       font-style: var(--font-caption-style);
       line-height: var(--font-caption-lh);
       color: var(--color-steel);

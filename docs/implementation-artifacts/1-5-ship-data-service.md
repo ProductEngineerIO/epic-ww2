@@ -86,7 +86,7 @@ export class ShipDataService {
 ### Import Path from `src/app/core/services/`
 
 From `src/app/core/services/ship-data.service.ts`, the relative paths are:
-- `Ship` model: `'../shared/models/ship.model'`
+- `Ship` model: `'../../shared/models/ship.model'`
 - `SHIPS` data: `'../../../data/ships'`
 
 Verify the relative depth by counting: `core/services/` is 2 levels below `app/`, and `data/` is one level below `src/`, so `../../..` goes from `services/` → `core/` → `app/` → `src/`, then `/data/ships`.
@@ -173,6 +173,18 @@ Claude Sonnet 4.6
 
 ### Debug Log References
 
+None.
+
 ### Completion Notes List
 
+- All 7 ACs pass.
+- AC 1 build verification required patching a pre-existing Story 1.2 regression: `withRouterConfig({ scrollPositionRestoration: 'top' })` is invalid in Angular 21 — replaced with `withInMemoryScrolling({ scrollPositionRestoration: 'top' })` in `src/app/app.config.ts`.
+- AC 5 & 6 verified by inspecting `ships.ts` roster order: `burton-island-ag-88` is idx 0, `uss-valley-forge` is idx 19, `uss-vicksburg` is idx 20 (21 ships total). Modulo arithmetic produces correct circular results.
+- AD-3 compliance confirmed: only `ship-data.service.ts` imports from `ships.ts`.
+- AD-7 compliance confirmed: no component lists `ShipDataService` in a `providers` array.
+- `RouterTitleStrategy` already injects `ShipDataService` and uses `getBySlug()` — no stub update needed.
+
 ### File List
+
+- `src/app/core/services/ship-data.service.ts` — created (ShipDataService implementation)
+- `src/app/app.config.ts` — patched (`withRouterConfig` → `withInMemoryScrolling`, Story 1.2 regression fix)

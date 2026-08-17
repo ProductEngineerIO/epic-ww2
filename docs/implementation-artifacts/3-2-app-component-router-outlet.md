@@ -18,14 +18,18 @@ so that every page in the site is framed by the persistent navigation shell and 
 
 ## Tasks / Subtasks
 
-- [ ] Update `src/app/app.component.ts` to import `RouterOutlet` and `PersistentNavComponent` (AC: 2)
-  - [ ] Add `RouterOutlet` and `PersistentNavComponent` to the `imports` array
-  - [ ] `PersistentNavComponent` is the stub created in Story 3.2 — if 3.2 is done first, use that; otherwise create a minimal stub placeholder now and update after 3.2 ships
-- [ ] Update `AppComponent` template with semantic shell structure (AC: 1, 3)
-  - [ ] `<header>` containing `<app-persistent-nav>`
-  - [ ] `<main>` containing `<router-outlet />`
-  - [ ] Remove all Angular default boilerplate HTML (the generated template with Angular logo etc.)
-- [ ] Verify `ng serve` shows nav + page content at each route (AC: 4, 5)
+- [x] Update `src/app/app.component.ts` to import `RouterOutlet` and `PersistentNavComponent` (AC: 2)
+  - [x] Add `RouterOutlet` and `PersistentNavComponent` to the `imports` array
+  - [x] `PersistentNavComponent` is the stub created in Story 3.1 — Story 3.1 must be complete before this story ships
+- [x] Update `AppComponent` template with semantic shell structure (AC: 1, 3)
+  - [x] `<header>` containing `<app-persistent-nav>`
+  - [x] `<main>` containing `<router-outlet />`
+  - [x] Remove all Angular default boilerplate HTML (the generated template with Angular logo etc.)
+  - [x] Switch from `styleUrl: './app.component.scss'` to inline `styles: [...]` as shown in the Complete AppComponent below (the scaffold's scss file is empty and not needed)
+- [x] Update `src/app/app.component.spec.ts` to add `provideRouter([])` (AC: 1, 2)
+  - [x] Add `import { provideRouter } from '@angular/router';` to imports
+  - [x] Add `providers: [provideRouter([])]` to the `configureTestingModule` call — required because `PersistentNavComponent` uses `RouterLink`/`RouterLinkActive` which need the router injected
+- [x] Verify `ng serve` shows nav + page content at each route (AC: 4, 5)
 
 ## Dev Notes
 
@@ -77,7 +81,7 @@ This is both an accessibility requirement and a screen-reader landmark requireme
 
 ### scrollPositionRestoration Already Handled
 
-`withRouterConfig({ scrollPositionRestoration: 'top' })` was configured in Story 1.2 (`app.config.ts`). `AppComponent` does not need any scroll management code — it is handled at the router level.
+`withInMemoryScrolling({ scrollPositionRestoration: 'top' })` was configured in Story 1.2 (`app.config.ts`). `AppComponent` does not need any scroll management code — it is handled at the router level.
 
 ### No title attribute on AppComponent
 

@@ -10,7 +10,7 @@ so that Angular components can deliver fast-loading, properly formatted WebP and
 
 ## Acceptance Criteria
 
-1. `scripts/optimize-images.mjs` exists and uses `sharp` `^0.33.0`; running `node scripts/optimize-images.mjs` from the project root completes without errors
+1. `scripts/optimize-images.mjs` exists and uses `sharp` `^0.33.0`; `sharp` is listed under `dependencies` (not `devDependencies`) in `package.json`; running `node scripts/optimize-images.mjs` from the project root completes without errors
 2. Each of the 21 ships produces exactly four output files: `src/assets/images/hero/{slug}.webp`, `src/assets/images/hero/{slug}.jpg`, `src/assets/images/thumb/{slug}.webp`, `src/assets/images/thumb/{slug}.jpg`
 3. Hero images are resized to 1920px width; thumb images are resized to 600px width; aspect ratio is preserved in both cases (`fit: 'inside'` or equivalent)
 4. Every hero WebP file is ≤200 KB
@@ -18,30 +18,33 @@ so that Angular components can deliver fast-loading, properly formatted WebP and
 6. Filename anomaly `./images/uss-massachusettes.jpg` → outputs named `uss-massachusettes.webp` / `uss-massachusettes.jpg` (misspelling preserved — matches `ships.ts` slug)
 7. Script is idempotent: re-running produces no errors and simply overwrites outputs
 8. `package.json` contains `"optimize-images": "node scripts/optimize-images.mjs"` in the `scripts` section
+9. If `./images/` contains fewer than 21 `.jpg` files, the script logs a warning per missing expected file and exits with a non-zero code so CI catches the gap — it does not silently produce a partial output set
 
 ## Tasks / Subtasks
 
-- [ ] Install `sharp` as a project dependency (AC: 1)
-  - [ ] Run `npm install sharp@^0.33.0` from project root
-  - [ ] Confirm `sharp` appears in `dependencies` (not `devDependencies`) in `package.json` — it is a build tool not a dev-only tool
-- [ ] Create output directories if they do not exist (AC: 2)
-  - [ ] Script must `mkdir -p` (or `fs.mkdirSync(..., { recursive: true })`) for `src/assets/images/hero/` and `src/assets/images/thumb/` before writing any files
-- [ ] Build slug derivation logic with anomaly corrections (AC: 5, 6)
-  - [ ] For each `.jpg` in `./images/`, derive slug by stripping `.jpg` extension and stripping any trailing dash
-  - [ ] Result: `uss-keppler-.jpg` → slug `uss-keppler`; `uss-massachusettes.jpg` → slug `uss-massachusettes`
-  - [ ] All other 19 filenames produce slugs equal to filename minus extension
-- [ ] Implement hero image processing (AC: 3, 4)
-  - [ ] Resize to 1920w with `sharp().resize(1920, null, { fit: 'inside', withoutEnlargement: true })`
-  - [ ] Write `.webp` with quality tuned to keep ≤200 KB (start at quality 80, reduce if needed; `sharp` `.webp({ quality: 80 })`)
-  - [ ] Write `.jpg` JPEG fallback with `sharp().jpeg({ quality: 82, progressive: true })`
-- [ ] Implement thumbnail image processing (AC: 2, 3)
-  - [ ] Resize to 600w with `sharp().resize(600, null, { fit: 'inside', withoutEnlargement: true })`
-  - [ ] Write `.webp` thumb: `.webp({ quality: 75 })`
-  - [ ] Write `.jpg` thumb: `.jpeg({ quality: 78 })`
-- [ ] Add `optimize-images` npm script to `package.json` (AC: 8)
-- [ ] Run the script and verify all 42 output files exist and hero WebPs are ≤200 KB (AC: 2, 4)
-  - [ ] `ls src/assets/images/hero/ | wc -l` should output `42`
-  - [ ] Check file sizes: `ls -lh src/assets/images/hero/*.webp`
+- [x] Install `sharp` as a project dependency (AC: 1)
+  - [x] Run `npm install sharp@^0.33.0` from project root
+  - [x] Confirm `sharp` appears in `dependencies` (not `devDependencies`) in `package.json` — it is a build tool not a dev-only tool (AC: 1)
+- [x] Create output directories if they do not exist (AC: 2)
+  - [x] Script must `mkdir -p` (or `fs.mkdirSync(..., { recursive: true })`) for `src/assets/images/hero/` and `src/assets/images/thumb/` before writing any files
+- [x] Build slug derivation logic with anomaly corrections (AC: 5, 6)
+  - [x] For each `.jpg` in `./images/`, derive slug by stripping `.jpg` extension and stripping any trailing dash
+  - [x] Result: `uss-keppler-.jpg` → slug `uss-keppler`; `uss-massachusettes.jpg` → slug `uss-massachusettes`
+  - [x] All other 19 filenames produce slugs equal to filename minus extension
+- [x] Implement hero image processing (AC: 3, 4)
+  - [x] Resize to 1920w with `sharp().resize(1920, null, { fit: 'inside', withoutEnlargement: true })`
+  - [x] Write `.webp` with quality tuned to keep ≤200 KB (start at quality 80, reduce if needed; `sharp` `.webp({ quality: 80 })`)
+  - [x] Write `.jpg` JPEG fallback with `sharp().jpeg({ quality: 82, progressive: true })`
+- [x] Implement thumbnail image processing (AC: 2, 3)
+  - [x] Resize to 600w with `sharp().resize(600, null, { fit: 'inside', withoutEnlargement: true })`
+  - [x] Write `.webp` thumb: `.webp({ quality: 75 })`
+  - [x] Write `.jpg` thumb: `.jpeg({ quality: 78 })`
+- [x] Add `optimize-images` npm script to `package.json` (AC: 8)
+- [x] Implement source-file count guard (AC: 9)
+  - [x] Before processing, glob `./images/*.jpg` and compare against the 21 expected slugs; log a warning and exit non-zero for any missing file
+- [x] Run the script and verify all 42 output files exist and hero WebPs are ≤200 KB (AC: 2, 4)
+  - [x] `ls src/assets/images/hero/ | wc -l` should output `42`
+  - [x] Check file sizes: `ls -lh src/assets/images/hero/*.webp`
 
 ## Dev Notes
 
@@ -142,9 +145,9 @@ ls -lh src/assets/images/hero/*.webp
 
 Any file > 200 KB is a build violation (NFR-1, FR-25).
 
-### gitignore Consideration
+### gitignore Decision (resolved)
 
-The `./images/` source directory and `src/assets/images/` outputs may or may not be gitignored. Check `.gitignore` before committing. Source images are typically not committed if large; optimized outputs should be committed so `ng build` works in CI without running the script. This is a team/repo decision — note it but do not change `.gitignore` without explicit instruction.
+Neither `./images/` nor `src/assets/images/` is listed in `.gitignore` — both directories are tracked by git. **Commit both:** the 21 source JPEGs in `./images/` and all 84 optimized outputs in `src/assets/images/`. This ensures `ng build` works in CI without requiring the script to re-run. No `.gitignore` changes are needed.
 
 ### Project Structure Notes
 
