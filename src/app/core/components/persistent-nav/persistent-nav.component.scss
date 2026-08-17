@@ -1,0 +1,83 @@
+// src/app/core/components/persistent-nav/persistent-nav.component.scss
+// No raw hex values — all colors reference var(--color-*) design tokens (AD-4).
+
+:host {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-outline-v);
+  height: 56px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 var(--space-gutter);
+  max-width: var(--space-content-max);
+  margin: 0 auto;
+
+  @media (max-width: 767px) {
+    padding: 0 var(--space-gutter-mobile);
+  }
+}
+
+.nav__title {
+  font-family:    var(--font-display);
+  font-size:      var(--font-hl-sm-size);
+  font-weight:    var(--font-hl-sm-weight);
+  line-height:    var(--font-hl-sm-lh);
+  letter-spacing: var(--font-hl-sm-ls);
+  color:          var(--color-khaki);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Touch target (AC-7) */
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+
+  @media (max-width: 479px) {
+    max-width: 180px;
+  }
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  flex-shrink: 0; /* prevent links from compressing before title (AC-6) */
+}
+
+.nav__link {
+  font-family:    var(--font-display);
+  font-size:      var(--font-nav-link-size);
+  font-weight:    var(--font-nav-link-weight);
+  letter-spacing: var(--font-nav-link-ls);
+  color:          var(--color-steel);
+  text-decoration: none;
+  /* Touch target (AC-7) */
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 0.75rem;
+  transition: color 150ms ease;
+
+  &:hover {
+    color: var(--color-on-surface);
+  }
+
+  &.nav__link--active {
+    color: var(--color-olive);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}

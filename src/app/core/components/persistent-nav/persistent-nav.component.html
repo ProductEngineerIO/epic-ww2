@@ -1,0 +1,28 @@
+<!-- src/app/core/components/persistent-nav/persistent-nav.component.html -->
+<nav class="nav" aria-label="Site navigation">
+  <a [routerLink]="['/']"
+     routerLinkActive="nav__title--active"
+     [routerLinkActiveOptions]="{ exact: true }"
+     class="nav__title"
+     aria-label="Howard Hertzog WWII Photography — Home">
+    Howard Hertzog — WWII Photography
+  </a>
+
+  <ul class="nav__links" role="list">
+    <li>
+      <a [routerLink]="['/']"
+         routerLinkActive="nav__link--active"
+         [routerLinkActiveOptions]="{ exact: true }"
+         class="nav__link">
+        Fleet
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/about']"
+         routerLinkActive="nav__link--active"
+         class="nav__link">
+        About Howard
+      </a>
+    </li>
+  </ul>
+</nav>
