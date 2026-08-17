@@ -1,0 +1,24 @@
+@if (ship) {
+  @if (imageError) {
+    <figure class="homepage-hero homepage-hero--error"
+            [attr.aria-label]="ship.name + ', photographed by Howard Hertzog — image unavailable'">
+      <div class="homepage-hero__error-state">
+        <span class="homepage-hero__error-text">Image unavailable</span>
+      </div>
+    </figure>
+  } @else {
+    <figure class="homepage-hero">
+      <picture>
+        <source type="image/webp"
+                [srcset]="'assets/images/hero/' + ship.slug + '.webp'">
+        <img [src]="'assets/images/hero/' + ship.slug + '.jpg'"
+             [alt]="ship.name + ', photographed by Howard Hertzog'"
+             loading="eager"
+             class="homepage-hero__img"
+             [class.is-loaded]="imageLoaded"
+             (load)="onImageLoad()"
+             (error)="onImageError()">
+      </picture>
+    </figure>
+  }
+}
