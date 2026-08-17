@@ -14,6 +14,13 @@ export class ShipHeroComponent {
   imageLoaded = false;
   imageError = false;
 
+  get computedAltText(): string {
+    if (!this.ship.altText?.trim() || this.ship.altText.trim() === '[Alt text pending]') {
+      return `${this.ship.name}, photographed by Howard Hertzog, San Francisco Bay, c. 1944–1946`;
+    }
+    return this.ship.altText;
+  }
+
   onImageLoad(): void {
     this.imageLoaded = true;
   }

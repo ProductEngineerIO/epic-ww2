@@ -15,10 +15,10 @@
   --color-on-surface:     #ede9df;  // primary body text
   --color-khaki:          #c9b87a;  // headings, ship names (on-surface-variant)
   --color-steel:          #8a9aaa;  // secondary text, metadata
-  --color-steel-muted:    #5a6870;  // muted / placeholder text
+  --color-steel-muted:    #8ea3ae;  // muted / placeholder text — verified ≥5.2:1 on --color-surface-raised (#2e2e22)
 
   // ── Colors: Accent ───────────────────────────────────────
-  --color-olive:          #7a8c44;  // primary accent — nav active, borders, hover
+  --color-olive:          #8fa04c;  // primary accent — nav active, borders, hover — verified ≥5.0:1 on --color-surface (#23231a)
   --color-olive-dim:      #4a5228;  // dimmed olive for subtle accents
 
   // ── Colors: Borders ──────────────────────────────────────

@@ -91,9 +91,30 @@ describe('ShipHeroComponent', () => {
     expect(source?.getAttribute('srcset')).toBe('assets/images/hero/test-ship.webp');
   });
 
-  it('should bind alt text from ship.altText', () => {
+  it('should bind alt text from computedAltText when ship.altText is set', () => {
     const img = compiled.querySelector<HTMLImageElement>('img');
     expect(img?.getAttribute('alt')).toBe('Test alt');
+  });
+
+  // --- computedAltText getter ---
+
+  it('computedAltText should return ship.altText when it is a non-placeholder non-empty string', () => {
+    component.ship = { ...STUB_SHIP, altText: 'Custom alt text' };
+    expect(component.computedAltText).toBe('Custom alt text');
+  });
+
+  it('computedAltText should return fallback attribution when ship.altText is the placeholder value', () => {
+    component.ship = { ...STUB_SHIP, name: 'USS Valley Forge', altText: '[Alt text pending]' };
+    expect(component.computedAltText).toBe(
+      'USS Valley Forge, photographed by Howard Hertzog, San Francisco Bay, c. 1944–1946'
+    );
+  });
+
+  it('computedAltText should return fallback attribution when ship.altText is empty or whitespace-only', () => {
+    component.ship = { ...STUB_SHIP, name: 'USS Valley Forge', altText: '   ' };
+    expect(component.computedAltText).toBe(
+      'USS Valley Forge, photographed by Howard Hertzog, San Francisco Bay, c. 1944–1946'
+    );
   });
 
   it('should render the ship name in a <figcaption>', () => {
