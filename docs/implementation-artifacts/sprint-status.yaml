@@ -82,7 +82,7 @@ development_status:
   # ── Epic 5: Homepage ─────────────────────────────────────────────────────────
   epic-5: ready-for-dev
   5-1-homepage-hero: done
-  5-2-fleet-grid: ready-for-dev
+  5-2-fleet-grid: done
   5-3-home-component: ready-for-dev
   epic-5-retrospective: optional
 
