@@ -1,6 +1,6 @@
 // src/app/core/components/persistent-nav/persistent-nav.component.spec.ts
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { RouterLinkActive, provideRouter } from '@angular/router';
 
 import { PersistentNavComponent } from './persistent-nav.component';
 
@@ -74,21 +74,15 @@ describe('PersistentNavComponent', () => {
   });
 
   it('should have routerLinkActiveOptions set to { exact: true } on the Fleet link', () => {
-    // The Fleet link is the first .nav__link, and it also has [routerLinkActiveOptions].
-    // Angular encodes routerLinkActiveOptions as a directive; we verify by checking the
-    // DOM attribute that Angular binds — inspecting the directive instance directly.
     const links = compiled.querySelectorAll<HTMLAnchorElement>('.nav__link');
     const fleetLink = Array.from(links).find(l => l.textContent?.trim() === 'Fleet');
     // If exact: true is NOT set, the Fleet link would match every route including /about.
-    // We can't easily inspect directive inputs from compiled HTML; instead confirm the
-    // element exists and that the template attribute is present via the debug element.
+    // Inspect the RouterLinkActive directive instance via the debug element injector.
     const debugEl = fixture.debugElement.queryAll(
       el => el.nativeElement === fleetLink
     )[0];
-    // routerLinkActiveOptions is an @Input() on RouterLinkActive; access via injector.
-    const { RouterLinkActive } = require('@angular/router');
     const rla = debugEl?.injector?.get(RouterLinkActive, null);
     expect(rla).toBeTruthy();
-    expect((rla as any).routerLinkActiveOptions).toEqual({ exact: true });
+    expect((rla as RouterLinkActive).routerLinkActiveOptions).toEqual({ exact: true });
   });
 });

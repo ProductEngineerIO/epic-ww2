@@ -1,0 +1,31 @@
+:host {
+  display: block;
+}
+
+.home__intro {
+  max-width: var(--space-content-max);
+  margin: 0 auto;
+  padding: var(--space-section-gap) var(--space-gutter-mobile);
+
+  @media (min-width: 768px) {
+    padding: var(--space-section-gap) var(--space-gutter);
+  }
+}
+
+.home__title {
+  color: var(--color-khaki);
+  margin: 0 0 0.5rem;
+}
+
+.home__subtitle {
+  font-family: var(--font-display);
+  font-size: var(--font-hl-sm-size);
+  color: var(--color-steel);
+  margin: 0 0 var(--space-section-gap-mobile);
+  letter-spacing: 0.04em;
+}
+
+.home__text {
+  color: var(--color-on-surface);
+  margin: 0 0 1.25rem;
+}

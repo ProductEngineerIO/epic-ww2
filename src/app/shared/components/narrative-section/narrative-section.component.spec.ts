@@ -30,17 +30,17 @@ describe('NarrativeSectionComponent', () => {
 
   it('isPending returns true for empty narrative array', () => {
     component.ship = { ...baseShip, narrative: [] };
-    expect(component.isPending).toBeTrue();
+    expect(component.isPending).toBe(true);
   });
 
   it('isPending returns true when all entries are "[Content pending]"', () => {
     component.ship = { ...baseShip, narrative: ['[Content pending]', '[Content pending]'] };
-    expect(component.isPending).toBeTrue();
+    expect(component.isPending).toBe(true);
   });
 
   it('isPending returns false when at least one entry is real content', () => {
     component.ship = { ...baseShip, narrative: ['[Content pending]', 'Real narrative paragraph.'] };
-    expect(component.isPending).toBeFalse();
+    expect(component.isPending).toBe(false);
   });
 
   // --- caveats getter ---

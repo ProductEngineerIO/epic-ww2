@@ -35,53 +35,57 @@ describe('WitnessTrioBlockComponent', () => {
 
   it('narrativePending returns true for an empty narrative array', () => {
     component.ship = { ...baseShip, narrative: [] };
-    expect(component.narrativePending).toBeTrue();
+    expect(component.narrativePending).toBe(true);
   });
 
   it('narrativePending returns true when all entries equal "[Content pending]"', () => {
     component.ship = { ...baseShip, narrative: ['[Content pending]', '[Content pending]'] };
-    expect(component.narrativePending).toBeTrue();
+    expect(component.narrativePending).toBe(true);
   });
 
   it('narrativePending returns false when at least one entry is real content', () => {
     component.ship = { ...baseShip, narrative: ['[Content pending]', 'Real narrative paragraph.'] };
-    expect(component.narrativePending).toBeFalse();
+    expect(component.narrativePending).toBe(false);
   });
 
   // --- ngOnInit warnings ---
 
   it('ngOnInit calls console.warn for narrative when narrativePending is true', () => {
     component.ship = { ...baseShip, narrative: [] };
-    spyOn(console, 'warn');
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     component.ngOnInit();
-    expect(console.warn).toHaveBeenCalledWith(
+    expect(warnSpy).toHaveBeenCalledWith(
       `WitnessTrioBlock: narrative missing for slug "${component.ship.slug}"`
     );
+    warnSpy.mockRestore();
   });
 
   it('ngOnInit calls console.warn for fate when ship.fate equals "[Content pending]"', () => {
     component.ship = { ...baseShip, fate: '[Content pending]' };
-    spyOn(console, 'warn');
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     component.ngOnInit();
-    expect(console.warn).toHaveBeenCalledWith(
+    expect(warnSpy).toHaveBeenCalledWith(
       `WitnessTrioBlock: fate missing for slug "${component.ship.slug}"`
     );
+    warnSpy.mockRestore();
   });
 
   it('ngOnInit calls console.warn for fate when ship.fate is falsy', () => {
     component.ship = { ...baseShip, fate: '' };
-    spyOn(console, 'warn');
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     component.ngOnInit();
-    expect(console.warn).toHaveBeenCalledWith(
+    expect(warnSpy).toHaveBeenCalledWith(
       `WitnessTrioBlock: fate missing for slug "${component.ship.slug}"`
     );
+    warnSpy.mockRestore();
   });
 
   it('ngOnInit does not call console.warn when both narrative and fate are populated', () => {
     component.ship = { ...baseShip };
-    spyOn(console, 'warn');
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     component.ngOnInit();
-    expect(console.warn).not.toHaveBeenCalled();
+    expect(warnSpy).not.toHaveBeenCalled();
+    warnSpy.mockRestore();
   });
 
   // --- Template rendering ---
