@@ -5,7 +5,7 @@
 .fleet-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-unit);
+  gap: 12px; // DESIGN.md specifies gap: '12px' exactly; no matching token — intentional raw value
   padding: 0 var(--space-gutter-mobile);
 
   @media (min-width: 768px) {
