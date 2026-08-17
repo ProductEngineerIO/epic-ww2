@@ -64,7 +64,7 @@ development_status:
 
   # ── Epic 3: Application Shell ────────────────────────────────────────────────
   epic-3: ready-for-dev
-  3-1-persistent-nav: ready-for-dev
+  3-1-persistent-nav: done
   3-2-app-component-router-outlet: ready-for-dev
   epic-3-retrospective: optional
 

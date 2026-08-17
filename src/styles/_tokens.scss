@@ -88,6 +88,10 @@
   // ── Typography: nav-link (PersistentNav links) ────────────
   --font-nav-link-size:   0.875rem;
   --font-nav-link-weight: 400;
+  --font-nav-link-ls:     0.06em;
+
+  // ── Z-index ───────────────────────────────────────────────
+  --z-nav: 100;
 
   // ── Spacing ───────────────────────────────────────────────
   --space-unit:              8px;
