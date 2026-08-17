@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+.ship-page {
+  // The article is a full-page layout container; no max-width here
+  // — ShipHero bleeds full-width, WitnessTrioBlock and ShipNav manage their own max-width
+}
+
+.ship-page__title {
+  // Visually hidden — the ship name is already visually shown by ShipHero's figcaption overlay
+  // This <h1> is for screen readers and document outline only
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
