@@ -4,8 +4,26 @@ import { PersistentNavComponent } from './core/components/persistent-nav/persist
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [RouterOutlet, PersistentNavComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  template: `
+    <header>
+      <app-persistent-nav />
+    </header>
+    <main>
+      <router-outlet />
+    </main>
+  `,
+  styles: [`
+    :host {
+      display: block;
+      min-height: 100vh;
+      background-color: var(--color-bg);
+    }
+    main {
+      /* PersistentNav is sticky 56px; no top padding needed here —
+         each feature page manages its own layout */
+    }
+  `]
 })
 export class AppComponent {}
