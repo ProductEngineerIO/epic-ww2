@@ -45,11 +45,10 @@ const mockShips: Ship[] = [
 describe('FleetGridComponent', () => {
   let component: FleetGridComponent;
   let fixture: ComponentFixture<FleetGridComponent>;
-  let mockShipDataService: jasmine.SpyObj<ShipDataService>;
+  let mockShipDataService: { getAll: ReturnType<typeof vi.fn> };
 
   beforeEach(async () => {
-    mockShipDataService = jasmine.createSpyObj('ShipDataService', ['getAll']);
-    mockShipDataService.getAll.and.returnValue(mockShips);
+    mockShipDataService = { getAll: vi.fn().mockReturnValue(mockShips) };
 
     await TestBed.configureTestingModule({
       imports: [FleetGridComponent],

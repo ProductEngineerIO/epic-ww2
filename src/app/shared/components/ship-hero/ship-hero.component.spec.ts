@@ -41,31 +41,31 @@ describe('ShipHeroComponent', () => {
   // --- Initial state ---
 
   it('should have imageLoaded as false on init', () => {
-    expect(component.imageLoaded).toBeFalse();
+    expect(component.imageLoaded).toBe(false);
   });
 
   it('should have imageError as false on init', () => {
-    expect(component.imageError).toBeFalse();
+    expect(component.imageError).toBe(false);
   });
 
   // --- onImageLoad ---
 
   it('should set imageLoaded to true when onImageLoad() is called', () => {
     component.onImageLoad();
-    expect(component.imageLoaded).toBeTrue();
+    expect(component.imageLoaded).toBe(true);
   });
 
   // --- onImageError ---
 
   it('should set imageError to true when onImageError() is called', () => {
     component.onImageError();
-    expect(component.imageError).toBeTrue();
+    expect(component.imageError).toBe(true);
   });
 
   // --- Default (non-error) template ---
 
   it('should render a <picture> element when imageError is false', () => {
-    expect(component.imageError).toBeFalse();
+    expect(component.imageError).toBe(false);
     const picture = compiled.querySelector('picture');
     expect(picture).toBeTruthy();
   });
@@ -73,7 +73,7 @@ describe('ShipHeroComponent', () => {
   it('should render a <figure> without ship-hero--error class when imageError is false', () => {
     const figure = compiled.querySelector('figure');
     expect(figure).toBeTruthy();
-    expect(figure?.classList.contains('ship-hero--error')).toBeFalse();
+    expect(figure?.classList.contains('ship-hero--error')).toBe(false);
   });
 
   it('should render the img with loading="eager"', () => {
@@ -105,12 +105,12 @@ describe('ShipHeroComponent', () => {
     component.onImageLoad();
     fixture.detectChanges();
     const img = compiled.querySelector('img');
-    expect(img?.classList.contains('is-loaded')).toBeTrue();
+    expect(img?.classList.contains('is-loaded')).toBe(true);
   });
 
   it('should NOT apply is-loaded class to img before onImageLoad()', () => {
     const img = compiled.querySelector('img');
-    expect(img?.classList.contains('is-loaded')).toBeFalse();
+    expect(img?.classList.contains('is-loaded')).toBe(false);
   });
 
   // --- Error state template ---
@@ -119,7 +119,7 @@ describe('ShipHeroComponent', () => {
     component.onImageError();
     fixture.detectChanges();
     const figure = compiled.querySelector('figure');
-    expect(figure?.classList.contains('ship-hero--error')).toBeTrue();
+    expect(figure?.classList.contains('ship-hero--error')).toBe(true);
   });
 
   it('should render "Image unavailable" text when imageError is true', () => {
